@@ -1,0 +1,7 @@
+{
+    "type": "bug",
+    "project": "DATA",
+    "issueNumber": "3766",
+    "description": "logout does not clear out the user from the fusion data package",
+    "epic": null
+}

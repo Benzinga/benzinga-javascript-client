@@ -1,0 +1,7 @@
+{
+    "type": "task",
+    "project": "Data.js",
+    "issueNumber": "4196",
+    "description": "fix chart using wrong key on production",
+    "epic": null
+}

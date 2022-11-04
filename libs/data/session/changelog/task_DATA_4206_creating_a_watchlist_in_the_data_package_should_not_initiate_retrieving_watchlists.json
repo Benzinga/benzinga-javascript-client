@@ -1,0 +1,7 @@
+{
+    "type": "task",
+    "project": "DATA",
+    "issueNumber": "4206",
+    "description": "creating a watchlist in the data package should not initiate retrieving watchlists",
+    "epic": null
+}

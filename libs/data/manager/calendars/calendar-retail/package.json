@@ -1,0 +1,10 @@
+{
+  "name": "@benzinga/calendar-retail-manager",
+  "version": "0.0.1",
+  "typedoc": {
+    "entryPoint": "./src/index.ts",
+    "readmeFile": "../README.md",
+    "displayName": "@benzinga/calendar-retail-manager",
+    "tsconfig": "./tsconfig.lib.json"
+  }
+}

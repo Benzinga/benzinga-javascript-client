@@ -1,0 +1,11 @@
+{
+  "name": "@benzinga/quotes-manager",
+  "version": "0.0.1",
+  "main": "src/index.ts",
+  "typedoc": {
+    "entryPoint": "./src/index.ts",
+    "readmeFile": "./README.md",
+    "displayName": "@benzinga/quotes-manager",
+    "tsconfig": "./tsconfig.lib.json"
+  }
+}

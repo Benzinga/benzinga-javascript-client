@@ -1,0 +1,818 @@
+{
+  "projects": {
+    "data-session": {
+      "root": "libs/data/session",
+      "sourceRoot": "libs/data/session/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/libs/data/session",
+            "entryFile": "libs/data/session/src/index.ts",
+            "tsConfig": "libs/data/session/tsconfig.lib.json",
+            "project": "libs/data/session/package.json",
+            "assets": [
+              {
+                "glob": "libs/icons/session/README.md",
+                "input": ".",
+                "output": "."
+              }
+            ],
+            "rollupConfig": [
+              "@nrwl/react/plugins/bundle-rollup",
+              "rollup.config.js"
+            ],
+            "external": [
+              "react/jsx-runtime"
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/data/session/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/data/session"
+          ],
+          "options": {
+            "jestConfig": "libs/data/session/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "data-manager-wiims": {
+      "root": "libs/data/manager/wiims",
+      "sourceRoot": "libs/data/manager/wiims/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:tsc",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/libs/data/manager/wiims",
+            "main": "libs/data/manager/wiims/src/index.ts",
+            "tsConfig": "libs/data/manager/wiims/tsconfig.lib.json",
+            "assets": [
+              "libs/data/manager/wiims/*.md",
+              "libs/data/manager/wiims/**/*.ts",
+              "coverage/libs/data/manager/wiims"
+            ],
+            "options": {
+              "jestConfig": "libs/data/manager/wiims/jest.config.js",
+              "passWithNoTests": true
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/data/manager/wiims/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/data/manager/wiims"
+          ],
+          "options": {
+            "jestConfig": "libs/data/manager/wiims/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "data-manager-calendars-calendar-fda": {
+      "root": "libs/data/manager/calendars/calendar-fda",
+      "sourceRoot": "libs/data/manager/calendars/calendar-fda/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:tsc",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/libs/data/manager/calendars/calendar-fda",
+            "main": "libs/data/manager/calendars/calendar-fda/src/index.ts",
+            "tsConfig": "libs/data/manager/calendars/calendar-fda/tsconfig.lib.json",
+            "assets": [
+              "libs/data/manager/calendars/calendar-fda/*.md"
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/data/manager/calendars/calendar-fda/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/data/manager/calendars/calendar-fda"
+          ],
+          "options": {
+            "jestConfig": "libs/data/manager/calendars/calendar-fda/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "data-manager-securities": {
+      "root": "libs/data/manager/securities",
+      "sourceRoot": "libs/data/manager/securities/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/libs/data/manager/securities",
+            "entryFile": "libs/data/manager/securities/src/index.ts",
+            "project": "libs/data/manager/securities/package.json",
+            "tsConfig": "libs/data/manager/securities/tsconfig.lib.json",
+            "assets": [
+              {
+                "glob": "libs/data/manager/securities/README.md",
+                "input": ".",
+                "output": "."
+              }
+            ],
+            "rollupConfig": [
+              "@nrwl/react/plugins/bundle-rollup",
+              "rollup.config.js"
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/data/manager/securities/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/data/manager/securities"
+          ],
+          "options": {
+            "jestConfig": "libs/data/manager/securities/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "data-manager-quotes": {
+      "root": "libs/data/manager/quotes",
+      "sourceRoot": "libs/data/manager/quotes/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/libs/data/manager/quotes",
+            "entryFile": "libs/data/manager/quotes/src/index.ts",
+            "project": "libs/data/manager/quotes/package.json",
+            "tsConfig": "libs/data/manager/quotes/tsconfig.lib.json",
+            "assets": [
+              {
+                "glob": "libs/data/manager/quotes/README.md",
+                "input": ".",
+                "output": "."
+              }
+            ],
+            "rollupConfig": [
+              "@nrwl/react/plugins/bundle-rollup",
+              "rollup.config.js"
+            ],
+            "external": [
+              "react/jsx-runtime"
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/data/manager/quotes/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/data/manager/quotes"
+          ],
+          "options": {
+            "jestConfig": "libs/data/manager/quotes/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "data-manager-movers": {
+      "root": "libs/data/manager/movers",
+      "sourceRoot": "libs/data/manager/movers/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:tsc",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/libs/data/manager/movers",
+            "main": "libs/data/manager/movers/src/index.ts",
+            "tsConfig": "libs/data/manager/movers/tsconfig.lib.json",
+            "assets": [
+              "libs/data/manager/movers/*.md"
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/data/manager/movers/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/data/manager/movers"
+          ],
+          "options": {
+            "jestConfig": "libs/data/manager/movers/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "data-manager-calendars-calendar-commons": {
+      "root": "libs/data/manager/calendars/calendar-commons",
+      "sourceRoot": "libs/data/manager/calendars/calendar-commons/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:tsc",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/libs/data/manager/calendars/calendar-commons",
+            "main": "libs/data/manager/calendars/calendar-commons/src/index.ts",
+            "tsConfig": "libs/data/manager/calendars/calendar-commons/tsconfig.lib.json",
+            "assets": [
+              "libs/data/manager/calendars/calendar-commons/*.md"
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/data/manager/calendars/calendar-commons/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/data/manager/calendars/calendar-commons"
+          ],
+          "options": {
+            "jestConfig": "libs/data/manager/calendars/calendar-commons/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "data-manager-calendars-calendar-conference-calls": {
+      "root": "libs/data/manager/calendars/calendar-conference-calls",
+      "sourceRoot": "libs/data/manager/calendars/calendar-conference-calls/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:tsc",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/libs/data/manager/calendars/calendar-conference-calls",
+            "main": "libs/data/manager/calendars/calendar-conference-calls/src/index.ts",
+            "tsConfig": "libs/data/manager/calendars/calendar-conference-calls/tsconfig.lib.json",
+            "assets": [
+              "libs/data/manager/calendars/calendar-conference-calls/*.md"
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/data/manager/calendars/calendar-conference-calls/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/data/manager/calendars/calendar-conference-calls"
+          ],
+          "options": {
+            "jestConfig": "libs/data/manager/calendars/calendar-conference-calls/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "data-manager-calendars-calendar-earnings": {
+      "root": "libs/data/manager/calendars/calendar-earnings",
+      "sourceRoot": "libs/data/manager/calendars/calendar-earnings/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:tsc",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/libs/data/manager/calendars/calendar-earnings",
+            "main": "libs/data/manager/calendars/calendar-earnings/src/index.ts",
+            "tsConfig": "libs/data/manager/calendars/calendar-earnings/tsconfig.lib.json",
+            "assets": [
+              "libs/data/manager/calendars/calendar-earnings/*.md"
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/data/manager/calendars/calendar-earnings/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/data/manager/calendars/calendar-earnings"
+          ],
+          "options": {
+            "jestConfig": "libs/data/manager/calendars/calendar-earnings/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "data-manager-calendars-calendar-economics": {
+      "root": "libs/data/manager/calendars/calendar-economics",
+      "sourceRoot": "libs/data/manager/calendars/calendar-economics/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:tsc",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/libs/data/manager/calendars/calendar-economics",
+            "main": "libs/data/manager/calendars/calendar-economics/src/index.ts",
+            "tsConfig": "libs/data/manager/calendars/calendar-economics/tsconfig.lib.json",
+            "assets": [
+              "libs/data/manager/calendars/calendar-economics/*.md"
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/data/manager/calendars/calendar-economics/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/data/manager/calendars/calendar-economics"
+          ],
+          "options": {
+            "jestConfig": "libs/data/manager/calendars/calendar-economics/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "data-manager-calendars-calendar-ipos": {
+      "root": "libs/data/manager/calendars/calendar-ipos",
+      "sourceRoot": "libs/data/manager/calendars/calendar-ipos/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:tsc",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/libs/data/manager/calendars/calendar-ipos",
+            "main": "libs/data/manager/calendars/calendar-ipos/src/index.ts",
+            "tsConfig": "libs/data/manager/calendars/calendar-ipos/tsconfig.lib.json",
+            "assets": [
+              "libs/data/manager/calendars/calendar-ipos/*.md"
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/data/manager/calendars/calendar-ipos/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/data/manager/calendars/calendar-ipos"
+          ],
+          "options": {
+            "jestConfig": "libs/data/manager/calendars/calendar-ipos/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "data-manager-calendars-calendar-ma": {
+      "root": "libs/data/manager/calendars/calendar-ma",
+      "sourceRoot": "libs/data/manager/calendars/calendar-ma/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:tsc",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/libs/data/manager/calendars/calendar-ma",
+            "main": "libs/data/manager/calendars/calendar-ma/src/index.ts",
+            "tsConfig": "libs/data/manager/calendars/calendar-ma/tsconfig.lib.json",
+            "assets": [
+              "libs/data/manager/calendars/calendar-ma/*.md"
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/data/manager/calendars/calendar-ma/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/data/manager/calendars/calendar-ma"
+          ],
+          "options": {
+            "jestConfig": "libs/data/manager/calendars/calendar-ma/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "data-manager-calendars-calendar-offerings": {
+      "root": "libs/data/manager/calendars/calendar-offerings",
+      "sourceRoot": "libs/data/manager/calendars/calendar-offerings/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:tsc",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/libs/data/manager/calendars/calendar-offerings",
+            "main": "libs/data/manager/calendars/calendar-offerings/src/index.ts",
+            "tsConfig": "libs/data/manager/calendars/calendar-offerings/tsconfig.lib.json",
+            "assets": [
+              "libs/data/manager/calendars/calendar-offerings/*.md"
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/data/manager/calendars/calendar-offerings/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/data/manager/calendars/calendar-offerings"
+          ],
+          "options": {
+            "jestConfig": "libs/data/manager/calendars/calendar-offerings/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "data-manager-calendars-calendar-ratings": {
+      "root": "libs/data/manager/calendars/calendar-ratings",
+      "sourceRoot": "libs/data/manager/calendars/calendar-ratings/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:tsc",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/libs/data/manager/calendars/calendar-ratings",
+            "main": "libs/data/manager/calendars/calendar-ratings/src/index.ts",
+            "tsConfig": "libs/data/manager/calendars/calendar-ratings/tsconfig.lib.json",
+            "assets": [
+              "libs/data/manager/calendars/calendar-ratings/*.md"
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/data/manager/calendars/calendar-ratings/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/data/manager/calendars/calendar-ratings"
+          ],
+          "options": {
+            "jestConfig": "libs/data/manager/calendars/calendar-ratings/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "data-manager-calendars-calendar-retail": {
+      "root": "libs/data/manager/calendars/calendar-retail",
+      "sourceRoot": "libs/data/manager/calendars/calendar-retail/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:tsc",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/libs/data/manager/calendars/calendar-retail",
+            "main": "libs/data/manager/calendars/calendar-retail/src/index.ts",
+            "tsConfig": "libs/data/manager/calendars/calendar-retail/tsconfig.lib.json",
+            "assets": [
+              "libs/data/manager/calendars/calendar-retail/*.md"
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/data/manager/calendars/calendar-retail/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/data/manager/calendars/calendar-retail"
+          ],
+          "options": {
+            "jestConfig": "libs/data/manager/calendars/calendar-retail/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "data-manager-calendars-calendar-sec": {
+      "root": "libs/data/manager/calendars/calendar-sec",
+      "sourceRoot": "libs/data/manager/calendars/calendar-sec/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:tsc",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/libs/data/manager/calendars/calendar-sec",
+            "main": "libs/data/manager/calendars/calendar-sec/src/index.ts",
+            "tsConfig": "libs/data/manager/calendars/calendar-sec/tsconfig.lib.json",
+            "assets": [
+              "libs/data/manager/calendars/calendar-sec/*.md"
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/data/manager/calendars/calendar-sec/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/data/manager/calendars/calendar-sec"
+          ],
+          "options": {
+            "jestConfig": "libs/data/manager/calendars/calendar-sec/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "data-manager-calendars-calendar-signals": {
+      "root": "libs/data/manager/calendars/calendar-signals",
+      "sourceRoot": "libs/data/manager/calendars/calendar-signals/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:tsc",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/libs/data/manager/calendars/calendar-signals",
+            "main": "libs/data/manager/calendars/calendar-signals/src/index.ts",
+            "tsConfig": "libs/data/manager/calendars/calendar-signals/tsconfig.lib.json",
+            "assets": [
+              "libs/data/manager/calendars/calendar-signals/*.md"
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/data/manager/calendars/calendar-signals/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/data/manager/calendars/calendar-signals"
+          ],
+          "options": {
+            "jestConfig": "libs/data/manager/calendars/calendar-signals/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "data-manager-calendars-calendar-splits": {
+      "root": "libs/data/manager/calendars/calendar-splits",
+      "sourceRoot": "libs/data/manager/calendars/calendar-splits/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:tsc",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/libs/data/manager/calendars/calendar-splits",
+            "main": "libs/data/manager/calendars/calendar-splits/src/index.ts",
+            "tsConfig": "libs/data/manager/calendars/calendar-splits/tsconfig.lib.json",
+            "assets": [
+              "libs/data/manager/calendars/calendar-splits/*.md"
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "libs/data/manager/calendars/calendar-splits/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/data/manager/calendars/calendar-splits"
+          ],
+          "options": {
+            "jestConfig": "libs/data/manager/calendars/calendar-splits/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    }
+  },
+  "version": 2
+}

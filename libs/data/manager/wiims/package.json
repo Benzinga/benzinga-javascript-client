@@ -1,0 +1,10 @@
+{
+  "name": "@benzinga/wiims-manager",
+  "version": "0.0.1",
+  "typedoc": {
+    "entryPoint": "./src/index.ts",
+    "readmeFile": "./README.md",
+    "displayName": "@benzinga/wiims-manager",
+    "tsconfig": "./tsconfig.lib.json"
+  }
+}

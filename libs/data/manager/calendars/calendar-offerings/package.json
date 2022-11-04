@@ -1,0 +1,10 @@
+{
+  "name": "@benzinga/calendar-offerings-manager",
+  "version": "0.0.1",
+  "typedoc": {
+    "entryPoint": "./src/index.ts",
+    "readmeFile": "../README.md",
+    "displayName": "@benzinga/calendar-offeringsmanager",
+    "tsconfig": "./tsconfig.lib.json"
+  }
+}

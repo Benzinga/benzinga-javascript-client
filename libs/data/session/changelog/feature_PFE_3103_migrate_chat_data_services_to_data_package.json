@@ -1,0 +1,7 @@
+{
+    "type": "feature",
+    "project": "Pro.js",
+    "issueNumber": "3103",
+    "description": "migrate chat data services to data package",
+    "epic": null
+}

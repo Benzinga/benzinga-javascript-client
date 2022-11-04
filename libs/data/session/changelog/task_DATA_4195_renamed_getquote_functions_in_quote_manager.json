@@ -1,0 +1,7 @@
+{
+    "type": "task",
+    "project": "DATA",
+    "issueNumber": "4195",
+    "description": "renamed getquote functions in quote manager",
+    "epic": null
+}

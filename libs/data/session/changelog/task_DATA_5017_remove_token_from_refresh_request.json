@@ -1,0 +1,7 @@
+{
+    "type": "task",
+    "project": "DATA",
+    "issueNumber": "5017",
+    "description": "remove token from refresh request",
+    "epic": null
+}

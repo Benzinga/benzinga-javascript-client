@@ -1,0 +1,7 @@
+{
+    "type": "task",
+    "project": "DATA",
+    "issueNumber": "5632",
+    "description": "migrate zingrewards from data to be merged to it s own manager",
+    "epic": null
+}

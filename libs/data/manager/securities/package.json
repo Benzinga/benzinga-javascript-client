@@ -1,0 +1,11 @@
+{
+  "name": "@benzinga/securities-manager",
+  "main": "src/index.ts",
+  "version": "0.0.1",
+  "typedoc": {
+    "entryPoint": "./src/index.ts",
+    "readmeFile": "./README.md",
+    "displayName": "@benzinga/securities-manager",
+    "tsconfig": "./tsconfig.lib.json"
+  }
+}

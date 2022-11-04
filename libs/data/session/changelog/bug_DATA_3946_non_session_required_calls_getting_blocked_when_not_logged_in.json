@@ -1,0 +1,7 @@
+{
+    "type": "bug",
+    "project": "Data.js",
+    "issueNumber": "3946",
+    "description": "non session required calls getting blocked when not logged in",
+    "epic": null
+}
