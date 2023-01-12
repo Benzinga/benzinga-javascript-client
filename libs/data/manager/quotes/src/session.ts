@@ -49,7 +49,7 @@ export class QuoteSession extends Subscribable<QuoteSessionEvents> {
     switch (event.type) {
       case 'quote:initial_detail_quote':
         if (event.symbol === this.security) {
-          this.call(event);
+          this.dispatch(event);
         }
         break;
       case 'quote:initial_quote':
@@ -60,7 +60,7 @@ export class QuoteSession extends Subscribable<QuoteSessionEvents> {
               ? ((event.quote[key as keyof IncomingQuote] as null) = null)
               : ((event.quote[key as keyof IncomingQuote] as typeof value) = value),
           );
-          this.call(event);
+          this.dispatch(event);
         }
         break;
       case 'reconnected':

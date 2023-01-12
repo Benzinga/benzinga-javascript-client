@@ -82,7 +82,7 @@ export class AuthenticationRestful extends RestfulClient {
             if ((result as any)['detail'] != null) {
               resolve({ err: new SafeError('throttled', 'throttled', result) });
             } else {
-              resolve({ result: result });
+              resolve({ ok: result });
             }
           });
         },

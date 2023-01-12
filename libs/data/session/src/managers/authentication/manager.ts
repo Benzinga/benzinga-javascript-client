@@ -132,7 +132,7 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
           client_id: this.googleClientId,
         });
         window.google.accounts.id.prompt((promptResponse: GooglePromptResponse) => {
-          this.call({
+          this.dispatch({
             display: promptResponse.g === 'display' && promptResponse.h,
             type: 'authentication:google_one_tap_prompt',
           });
@@ -178,9 +178,9 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
   ): SafePromise<Authentication> => {
     if (!this.isLoggedIn()) {
       const auth = await this.request.login(username, password, sessionOptions, this.store.getFingerprint());
-      if (auth.result) {
-        this.store.updateAuthenticationSession(auth.result);
-        // const exp = new Date(auth.result.exp);
+      if (auth.ok) {
+        this.store.updateAuthenticationSession(auth.ok);
+        // const exp = new Date(auth.ok.exp);
         // setTimeout(() => this.refresh(), exp.getTime() - 30000 - Date.now());
         setTimeout(() => this.refresh(), 30000);
       }
@@ -218,8 +218,8 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
    */
   public register = async (user: RegisterUser, sessionOptions?: SessionOptions): SafePromise<Authentication> => {
     const auth = await this.request.register(user, sessionOptions, this.store.getFingerprint());
-    if (auth.result) {
-      this.store.updateAuthenticationSession(auth.result);
+    if (auth.ok) {
+      this.store.updateAuthenticationSession(auth.ok);
       // we should probibly do this but i need to ask will
       //setTimeout(() => this.refresh(), 30000);
     }
@@ -319,8 +319,8 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
   public setBenzingaToken = async (token: string): SafePromise<Authentication> => {
     if (token !== this.store.getAuthentication()?.key) {
       const auth = await this.request.session(token);
-      if (auth.result) {
-        this.store.updateAuthenticationSession(auth.result);
+      if (auth.ok) {
+        this.store.updateAuthenticationSession(auth.ok);
       } else {
         return auth;
       }
@@ -332,7 +332,7 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
     }
     const auth = this.store.getAuthentication();
     if (auth) {
-      return { result: auth };
+      return { ok: auth };
     } else {
       return {
         err: new SafeError('Sno authentication set in etBenzingaToken This should not be possible', 'authentication'),
@@ -341,7 +341,7 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
   };
 
   public requestAuthorization(mode?: AuthMode): void {
-    this.call({
+    this.dispatch({
       mode: mode ?? 'register',
       type: 'request_auth',
     });
@@ -349,14 +349,14 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
   }
 
   public didAuthorize(): void {
-    this.call({
+    this.dispatch({
       type: 'authorized',
     });
     console.log('AUTHORIZED');
   }
 
   public didUnAuthorize(): void {
-    this.call({
+    this.dispatch({
       type: 'unauthorized',
     });
     console.log('UNAUTHORIZED');
@@ -394,8 +394,8 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
   };
 
   protected onFirstSubscription = (): void => {
-    this.requestSubscription = this.request.listen(event => this.call(event));
-    this.storeSubscription = this.store.listen(event => this.call(event));
+    this.requestSubscription = this.request.listen(event => this.dispatch(event));
+    this.storeSubscription = this.store.listen(event => this.dispatch(event));
   };
 
   protected onZeroSubscriptions = (): void => {
@@ -415,10 +415,10 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
 
   private refresh = async () => {
     const auth = await this.request.refresh(this.store.getAuthentication()?.key);
-    if (auth.result && this.store.getAuthentication()) {
-      this.store.refreshAuthenticationSession(auth.result);
-      // this.authentication.exp = auth.result.exp;
-      // setTimeout(() => this.refresh(), auth.result.exp - 30000 - Date.now());
+    if (auth.ok && this.store.getAuthentication()) {
+      this.store.refreshAuthenticationSession(auth.ok);
+      // this.authentication.exp = auth.ok.exp;
+      // setTimeout(() => this.refresh(), auth.ok.exp - 30000 - Date.now());
       setTimeout(() => this.refresh(), 30000);
     }
     return auth;
@@ -436,8 +436,8 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
   ): SafePromise<Authentication> => {
     if (this.store.getAuthentication() === undefined || force) {
       const auth = await callback();
-      if (auth.result) {
-        this.store.updateAuthenticationSession(auth.result);
+      if (auth.ok) {
+        this.store.updateAuthenticationSession(auth.ok);
       }
       return auth;
     }

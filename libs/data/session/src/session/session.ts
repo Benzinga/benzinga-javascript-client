@@ -117,7 +117,7 @@ export class Session extends Subscribable<SessionEvent> {
     if (manager === undefined) {
       manager = new managerName(this);
       if (this.subscriptions !== undefined) {
-        this.subscriptions?.push(manager.subscribe(event => this.call(event)));
+        this.subscriptions?.push(manager.subscribe(event => this.dispatch(event)));
       }
       this.managers.set(managerName.getName(), manager as unknown as Subscribable<SubscribableEvent<string>>);
     }
@@ -152,7 +152,7 @@ export class Session extends Subscribable<SessionEvent> {
 
   protected onFirstSubscriptionProtected(): void {
     this.subscriptions = [];
-    this.managers.forEach(manager => this.subscriptions?.push(manager.subscribe(event => this.call(event))));
+    this.managers.forEach(manager => this.subscriptions?.push(manager.subscribe(event => this.dispatch(event))));
   }
 
   protected onZeroSubscriptionsProtected(): void {

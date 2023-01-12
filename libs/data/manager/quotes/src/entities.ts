@@ -741,10 +741,10 @@ export interface DelayedQuote {
   /**
    * Currency
    *
-   * @type {number}
+   * @type {string}
    * @memberof DelayedQuote
    */
-  currency: number;
+  currency: string;
   /**
    * Date
    *
@@ -760,7 +760,6 @@ export interface DelayedQuote {
    */
   previousClosePrice: number;
 
-
   /**
    * Fifty day average price
    *
@@ -769,7 +768,6 @@ export interface DelayedQuote {
    */
   fiftyDayAveragePrice: number;
 
-
   /**
    * Average volume
    *
@@ -777,7 +775,6 @@ export interface DelayedQuote {
    * @memberof DelayedQuote
    */
   averageVolume: number;
-
 
   /**
    * Fifty Two Week high
@@ -850,7 +847,6 @@ export interface DelayedQuote {
    */
   volume: number;
 
-
   /**
    * ETH price
    *
@@ -858,7 +854,6 @@ export interface DelayedQuote {
    * @memberof DelayedQuote
    */
   ethPrice: number;
-
 
   /**
    * ETH volume
@@ -868,7 +863,6 @@ export interface DelayedQuote {
    */
   ethVolume: number;
 
-
   /**
    * ETH Time
    *
@@ -876,7 +870,6 @@ export interface DelayedQuote {
    * @memberof DelayedQuote
    */
   ethTime: number;
-
 
   /**
    * Issuer Name
@@ -886,7 +879,6 @@ export interface DelayedQuote {
    */
   issuerName?: string;
 
-
   /**
    * Is primary
    *
@@ -894,7 +886,6 @@ export interface DelayedQuote {
    * @memberof DelayedQuote
    */
   primary: boolean;
-
 
   /**
    * Short description

@@ -116,7 +116,7 @@ export abstract class DisplayContainer<
 
   public pause = (): void => {
     this.status['all'] = 'paused';
-    this.call({ status: this.status, type: 'status' });
+    this.dispatch({ status: this.status, type: 'status' });
   };
 
   public resume = (): void => {
@@ -138,7 +138,7 @@ export abstract class DisplayContainer<
     this.historicBuffer.clear();
     this.displayBuffer.clear();
     this.onClear();
-    this.call({
+    this.dispatch({
       transaction: { remove },
       type: 'clear',
     });
@@ -183,12 +183,12 @@ export abstract class DisplayContainer<
 
   public pauseLive = (): void => {
     this.status['live'] = 'paused';
-    this.call({ status: this.status, type: 'status' });
+    this.dispatch({ status: this.status, type: 'status' });
   };
 
   public pauseHistoric = (): void => {
     this.status['historic'] = 'paused';
-    this.call({ status: this.status, type: 'status' });
+    this.dispatch({ status: this.status, type: 'status' });
   };
 
   protected onSubscribe = (): DisplayContainerFunctions<ContainerType, Event, BufferType> => {
@@ -238,7 +238,7 @@ export abstract class DisplayContainer<
           buffer.pop();
         }
         items.forEach(item => buffer.push(item));
-        this.call({
+        this.dispatch({
           transaction: {
             add: items,
           },
@@ -254,7 +254,7 @@ export abstract class DisplayContainer<
           }
         }
         items.forEach(item => this.displayBuffer.push(item));
-        this.call({
+        this.dispatch({
           transaction: {
             add: items,
             remove: remove.length > 0 ? remove : undefined,
@@ -288,7 +288,7 @@ export abstract class DisplayContainer<
       this.displayBuffer.push(item);
     }
     if (add.length > 0 || remove.length > 0) {
-      this.call({
+      this.dispatch({
         transaction: {
           add,
           remove,
@@ -298,7 +298,7 @@ export abstract class DisplayContainer<
     }
     buffer.clear();
     this.status[status] = 'running';
-    this.call({ status: this.status, type: 'status' });
+    this.dispatch({ status: this.status, type: 'status' });
   };
 
   protected abstract onMessage(_event: Event): void;

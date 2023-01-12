@@ -6,7 +6,7 @@ export const ingest = async <T, U>(data: SafePromise<T>, callback: (data: T) => 
   if (result.err) {
     return { err: result.err };
   } else {
-    const value = result.result;
-    return { result: callback(value) };
+    const value = result.ok;
+    return { ok: callback(value) };
   }
 };

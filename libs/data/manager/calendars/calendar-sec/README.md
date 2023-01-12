@@ -43,7 +43,7 @@ const calendarDataResponse = await manager.getConferenceCalls({
 if (calendarDataResponse.err) {
   //handle error
 } else {
-  console.log(calendarDataResponse.result);
+  console.log(calendarDataResponse.ok);
 }
 ```
 

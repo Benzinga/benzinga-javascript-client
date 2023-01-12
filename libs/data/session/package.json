@@ -10,14 +10,14 @@
     "uuid": "^8.3.2",
     "typescript": "^4.3.4"
   },
-  "publishConfig": {
+  "deprecatedBenzingaPublishConfig": {
     "registry": "https://gitlab.benzinga.io/api/v4/projects/${CI_PROJECT_ID}/packages/npm/"
   },
   "repository": {
     "type": "git",
     "url": "https://gitlab.benzinga.io/benzinga/fusion.git"
   },
-  "version": "1.0.6",
+  "version": "1.0.14",
   "types": "src/index.d.ts",
   "typedoc": {
     "entryPoint": "./src/index.ts",

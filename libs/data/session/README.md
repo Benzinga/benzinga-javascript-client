@@ -35,7 +35,7 @@ const login = await authManager.login('username', 'password');
 if (login.err) {
   console.log(`Error: `, login.err);
 } else {
-	console.log(`Authentication: `, login.result);
+	console.log(`Authentication: `, login.ok);
 }
 ```
 
@@ -69,14 +69,6 @@ setTimeout(() => subscription.unsubscribe(), 60000);
 in this example we simply subscribe to signals coming from the signals feed for 1 min and then simply unsubscribe.
 
 each manger has a `manager.ts` file this file list all the things you can do with this manager.
-
-## Note
-
-This package is documented width `tsdoc`, and the documentation is being created with the help of `typedoc` library.
-It can be created by running `yarn documentation`.
-
-Documentation can be examined as a web app by running VSC Live Server or equivalent on the `./documentation/index.html`
-
 
 ## Adding a New Manager
 

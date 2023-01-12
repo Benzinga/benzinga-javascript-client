@@ -15,8 +15,8 @@ export const ingestSecurities = async (
   if (rawSecurities.err) {
     return { err: rawSecurities.err };
   } else {
-    if (rawSecurities.result.result) {
-      return { result: rawSecurities.result.result };
+    if (rawSecurities.ok.result) {
+      return { ok: rawSecurities.ok.result };
     } else {
       return { err: new SafeError('did not get a valid financial', 'invalid_financial') };
     }

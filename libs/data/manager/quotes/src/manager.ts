@@ -158,15 +158,15 @@ export class QuotesManager extends ExtendedSubscribable<QuotesManagerEvent, Watc
     }, {});
 
     if (numberOfCachedQuotes === symbols.length) {
-      return { result: cachedQuotes };
+      return { ok: cachedQuotes };
     } else {
       const watchlistQuotes = await this.request.getDetailedQuotes(symbols);
       if (watchlistQuotes.err) {
         return watchlistQuotes;
       } else {
-        Object.entries(watchlistQuotes.result).forEach(([key, value]) => this.store.setDetailedQuotes(key, value));
-        this.call({
-          quotes: watchlistQuotes.result,
+        Object.entries(watchlistQuotes.ok).forEach(([key, value]) => this.store.setDetailedQuotes(key, value));
+        this.dispatch({
+          quotes: watchlistQuotes.ok,
           type: 'quote:detailed_quotes',
         });
         return { ...cachedQuotes, ...watchlistQuotes };
@@ -199,21 +199,21 @@ export class QuotesManager extends ExtendedSubscribable<QuotesManagerEvent, Watc
     }, [] as Logo[]);
 
     if (numberOfCachedLogos === symbols.length) {
-      return { result: cachedLogos };
+      return { ok: cachedLogos };
     } else {
       const response = await this.request.getQuotesLogos(symbols, params);
 
       if (response.err) {
         return { err: response.err };
       } else {
-        if (Array.isArray(response.result)) {
-          response.result.forEach(logo => {
+        if (Array.isArray(response.ok)) {
+          response.ok.forEach(logo => {
             this.store.addQuotesLogos(logo.search_key, logo);
           });
         }
       }
 
-      return { result: response.result.data };
+      return { ok: response.ok.data };
     }
   };
 
@@ -288,15 +288,15 @@ export class QuotesManager extends ExtendedSubscribable<QuotesManagerEvent, Watc
       }, {});
     }
     if (params.symbols && numberOfCachedQuotes === params.symbols.length) {
-      return { result: cachedQuotes };
+      return { ok: cachedQuotes };
     } else {
       const shortInterestQuotes = await this.request.getShortInterest(params);
       if (shortInterestQuotes.err) {
         return shortInterestQuotes;
       } else {
-        this.store.setShortInterest(params, shortInterestQuotes.result);
-        this.call({
-          quotes: shortInterestQuotes.result,
+        this.store.setShortInterest(params, shortInterestQuotes.ok);
+        this.dispatch({
+          quotes: shortInterestQuotes.ok,
           type: 'quote:short_interest_quotes',
         });
         return { ...cachedQuotes, ...shortInterestQuotes };
@@ -305,8 +305,8 @@ export class QuotesManager extends ExtendedSubscribable<QuotesManagerEvent, Watc
   };
 
   protected onFirstSubscription = (): void => {
-    this.socketSubscription = this.socket.listen(event => this.call(event));
-    this.requestSubscription = this.request.listen(event => this.call(event));
+    this.socketSubscription = this.socket.listen(event => this.dispatch(event));
+    this.requestSubscription = this.request.listen(event => this.dispatch(event));
   };
 
   protected onZeroSubscriptions = (): void => {

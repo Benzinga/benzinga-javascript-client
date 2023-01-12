@@ -110,10 +110,10 @@ export const safeJsonDataFetch = async <T>(input: RequestInfo, init: DataRequest
   if (initializedConfig.err) {
     return initializedConfig as SafeType<T>;
   }
-  if ((initializedConfig.result as ResilientJsonRequestInit<unknown, unknown>).resilience) {
-    return safeJsonResilientFetch<T>(input, initializedConfig.result);
+  if ((initializedConfig.ok as ResilientJsonRequestInit<unknown, unknown>).resilience) {
+    return safeJsonResilientFetch<T>(input, initializedConfig.ok);
   } else {
-    return safeJsonFetch<T>(input, initializedConfig.result);
+    return safeJsonFetch<T>(input, initializedConfig.ok);
   }
 };
 
@@ -122,10 +122,10 @@ export const safeDataFetchWithNoContent = async <T>(input: RequestInfo, init: Da
   if (initializedConfig.err) {
     return initializedConfig as SafeType<T>;
   }
-  if ((initializedConfig.result as ResilientJsonRequestInit<unknown, unknown>).resilience) {
-    return safeJsonResilientFetch<T>(input, initializedConfig.result);
+  if ((initializedConfig.ok as ResilientJsonRequestInit<unknown, unknown>).resilience) {
+    return safeJsonResilientFetch<T>(input, initializedConfig.ok);
   } else {
-    return safeFetchWithNoContent<T>(input, initializedConfig.result);
+    return safeFetchWithNoContent<T>(input, initializedConfig.ok);
   }
 };
 
@@ -134,7 +134,7 @@ export const safeDataFetch = async (input: RequestInfo, init: DataRequestInit): 
   if (initializedConfig.err) {
     return initializedConfig as SafeType<Response>;
   }
-  return safeFetch(input, initializedConfig.result);
+  return safeFetch(input, initializedConfig.ok);
 };
 
 export const initFetch = async (init: DataRequestInit): SafePromise<DataRequestInit> => {
@@ -164,5 +164,5 @@ export const initFetch = async (init: DataRequestInit): SafePromise<DataRequestI
     init.headers.set('X-CSRFToken', csrfToken);
   }
 
-  return { result: init };
+  return { ok: init };
 };

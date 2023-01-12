@@ -66,12 +66,12 @@ export class AuthenticationRequest extends ExtendedListenableSubscribable<
   }
 
   public googleOneTapLogin = async (idToken: string, redirectUrl: string): SafePromise<Authentication> => {
-    this.call({
+    this.dispatch({
       type: 'authentication:requesting_logged_in',
     });
     const newLogin = await ingestAuthentication(this.restful.googleOneTapLogin(idToken, redirectUrl));
     if (newLogin.err) {
-      this.call({
+      this.dispatch({
         error: newLogin.err,
         errorType: 'login_error',
         type: 'error',
@@ -86,7 +86,7 @@ export class AuthenticationRequest extends ExtendedListenableSubscribable<
     sessionOptions?: SessionOptions,
     fingerprint?: unknown,
   ): SafePromise<Authentication> => {
-    this.call({
+    this.dispatch({
       type: 'authentication:requesting_logged_in',
     });
     const newLogin = await ingestAuthentication(this.restful.login(email, password, sessionOptions, fingerprint));
@@ -94,7 +94,7 @@ export class AuthenticationRequest extends ExtendedListenableSubscribable<
       const jsonRes = await (newLogin.err.data as Response).json();
       const json = jsonRes['detail'];
       const error = { err: json ? new SafeError(`${json}`, 'response', newLogin.err.data) : newLogin.err };
-      this.call({
+      this.dispatch({
         error: error.err,
         errorType: 'login_error',
         type: 'error',
@@ -105,12 +105,12 @@ export class AuthenticationRequest extends ExtendedListenableSubscribable<
   };
 
   public logout = async (): SafePromise<undefined> => {
-    this.call({
+    this.dispatch({
       type: 'authentication:requesting_logged_out',
     });
     const logout = await this.restful.logout();
     if (logout.err) {
-      this.call({
+      this.dispatch({
         error: logout.err,
         errorType: 'logout_error',
         type: 'error',
@@ -120,12 +120,12 @@ export class AuthenticationRequest extends ExtendedListenableSubscribable<
   };
 
   public forgotPassword = async (email: string): SafePromise<undefined> => {
-    this.call({
+    this.dispatch({
       type: 'authentication:requesting_forgot_password',
     });
     const logout = await this.restful.forgotPassword(email);
     if (logout.err) {
-      this.call({
+      this.dispatch({
         error: logout.err,
         errorType: 'forgot_password_error',
         type: 'error',
@@ -135,12 +135,12 @@ export class AuthenticationRequest extends ExtendedListenableSubscribable<
   };
 
   public changePassword = async (currentPassword: string, newPassword: string): SafePromise<undefined> => {
-    this.call({
+    this.dispatch({
       type: 'authentication:requesting_change_password',
     });
     const logout = await this.restful.changePassword(currentPassword, newPassword);
     if (logout.err) {
-      this.call({
+      this.dispatch({
         error: logout.err,
         errorType: 'change_password_error',
         type: 'error',
@@ -154,7 +154,7 @@ export class AuthenticationRequest extends ExtendedListenableSubscribable<
     sessionOptions?: SessionOptions,
     fingerprint?: unknown,
   ): SafePromise<Authentication> => {
-    this.call({
+    this.dispatch({
       type: 'authentication:requesting_registered',
     });
     const auth = await ingestAuthentication(this.restful.register(egressRegister(user, fingerprint), sessionOptions));
@@ -162,7 +162,7 @@ export class AuthenticationRequest extends ExtendedListenableSubscribable<
       const jsonRes = await (auth.err.data as Response).json();
       const json = jsonRes[Object.keys(jsonRes)[0]];
       const error = { err: json ? new SafeError(`${json}`, 'response', auth.err.data) : auth.err };
-      this.call({
+      this.dispatch({
         error: error.err,
         errorType: 'register_error',
         type: 'error',
@@ -173,12 +173,12 @@ export class AuthenticationRequest extends ExtendedListenableSubscribable<
   };
 
   public refresh = async (token?: string): SafePromise<RefreshResponse> => {
-    this.call({
+    this.dispatch({
       type: 'authentication:requesting_refreshed',
     });
     const refresh = await ingestRefreshResponse(this.restful.refresh(token));
     if (refresh.err) {
-      this.call({
+      this.dispatch({
         error: refresh.err,
         errorType: 'refresh_error',
         type: 'error',
@@ -188,12 +188,12 @@ export class AuthenticationRequest extends ExtendedListenableSubscribable<
   };
 
   public session = async (token?: string, sessionOptions?: SessionOptions): SafePromise<Authentication> => {
-    this.call({
+    this.dispatch({
       type: 'authentication:requesting_session',
     });
     const session = await ingestAuthentication(this.restful.getSession(token, sessionOptions));
     if (session.err) {
-      this.call({
+      this.dispatch({
         error: session.err,
         errorType: 'session_error',
         type: 'error',
@@ -203,12 +203,12 @@ export class AuthenticationRequest extends ExtendedListenableSubscribable<
   };
 
   public smsConfirm = async (token: string): SafePromise<boolean> => {
-    this.call({
+    this.dispatch({
       type: 'authentication:requesting_confirm_sms',
     });
     const smsVerified = await ingestSmsResponse(this.restful.smsConfirm(token));
     if (smsVerified.err) {
-      this.call({
+      this.dispatch({
         error: smsVerified.err,
         errorType: 'confirm_sms_error',
         type: 'error',
@@ -218,12 +218,12 @@ export class AuthenticationRequest extends ExtendedListenableSubscribable<
   };
 
   public smsRequest = async (): SafePromise<boolean> => {
-    this.call({
+    this.dispatch({
       type: 'authentication:requesting_request_sms',
     });
     const smsVerified = await ingestSmsResponse(this.restful.smsRequest());
     if (smsVerified.err) {
-      this.call({
+      this.dispatch({
         error: smsVerified.err,
         errorType: 'request_sms_error',
         type: 'error',
@@ -233,12 +233,12 @@ export class AuthenticationRequest extends ExtendedListenableSubscribable<
   };
 
   public humanCheck = async (): SafePromise<boolean> => {
-    this.call({
+    this.dispatch({
       type: 'authentication:requesting_check_human',
     });
     const humanVerified = await ingestHumanResponse(this.restful.humanCheck());
     if (humanVerified.err) {
-      this.call({
+      this.dispatch({
         error: humanVerified.err,
         errorType: 'check_human_error',
         type: 'error',
@@ -248,12 +248,12 @@ export class AuthenticationRequest extends ExtendedListenableSubscribable<
   };
 
   public humanConfirm = async (token: string): SafePromise<boolean> => {
-    this.call({
+    this.dispatch({
       type: 'authentication:requesting_confirm_human',
     });
     const humanVerified = await ingestHumanResponse(this.restful.humanConfirm(token));
     if (humanVerified.err) {
-      this.call({
+      this.dispatch({
         error: humanVerified.err,
         errorType: 'confirm_human_error',
         type: 'error',
@@ -263,12 +263,12 @@ export class AuthenticationRequest extends ExtendedListenableSubscribable<
   };
 
   public humanRequest = async (): SafePromise<boolean> => {
-    this.call({
+    this.dispatch({
       type: 'authentication:requesting_request_human',
     });
     const humanVerified = await ingestHumanResponse(this.restful.humanRequest());
     if (humanVerified.err) {
-      this.call({
+      this.dispatch({
         error: humanVerified.err,
         errorType: 'request_human_error',
         type: 'error',

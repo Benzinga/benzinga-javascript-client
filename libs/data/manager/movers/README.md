@@ -26,7 +26,7 @@ const moversResult = await manager.getMovers({
 if (moversResult.err) {
   console.error(moversResult.err);
 } else {
-  const movers = moversResult.result;
+  const movers = moversResult.ok;
 
   console.log(movers);
 }

@@ -25,7 +25,7 @@ const wiimsWrapper = await manager.getWiims({
 if (wiimsWrapper.err) {
   console.error(wiimsWrapper.err);
 } else {
-  const wiims = wiimsWrapper.result;
+  const wiims = wiimsWrapper.ok;
 
   console.log(wiims);
 }

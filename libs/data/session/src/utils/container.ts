@@ -76,7 +76,7 @@ export abstract class Container<
 
   public pause = (): void => {
     this.status = 'paused';
-    this.call({ type: 'paused' });
+    this.dispatch({ type: 'paused' });
   };
 
   public resume = (): void => {
@@ -96,9 +96,9 @@ export abstract class Container<
       add.push(item);
       this.runningBuffer.push(item);
     }
-    this.call({ type: 'running' });
+    this.dispatch({ type: 'running' });
     if (add.length > 0 || remove.length > 0) {
-      this.call({
+      this.dispatch({
         transaction: {
           add,
           remove,
@@ -117,7 +117,7 @@ export abstract class Container<
     }
     this.queuedBuffer.clear();
     this.runningBuffer.clear();
-    this.call({
+    this.dispatch({
       transaction: { remove },
       type: 'clear',
     });
@@ -174,7 +174,7 @@ export abstract class Container<
           this.queuedBuffer.pop();
         }
         items.forEach(item => this.queuedBuffer.push(item));
-        this.call({
+        this.dispatch({
           transaction: {
             add: items,
           },
@@ -190,7 +190,7 @@ export abstract class Container<
           }
         }
         items.forEach(item => this.runningBuffer.push(item));
-        this.call({
+        this.dispatch({
           transaction: {
             add: items,
             remove: remove.length > 0 ? remove : undefined,

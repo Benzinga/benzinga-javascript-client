@@ -29,7 +29,7 @@ const financialsResponse = await manager.getFinancials({
 if (financialsResponse.err) {
   //handle error
 } else {
-  console.log(financialsResponse.result);
+  console.log(financialsResponse.ok);
 }
 ```
 

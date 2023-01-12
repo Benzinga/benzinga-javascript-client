@@ -27,7 +27,7 @@ Now can you use the manager for next features:
 const delayedQuotesResponse = await manager.getDelayedQuotes(['SYM1', 'SYM2']);
 
 if (!delayedQuotesResponse.err) {
-  console.log(delayedQuotesResponse.result);
+  console.log(delayedQuotesResponse.ok);
 }
 ```
 
@@ -35,7 +35,7 @@ if (!delayedQuotesResponse.err) {
 const tickersResponse = await manager.getTickerDetails(['SYM1', 'SYM2']);
 
 if (!tickersResponse.err) {
-  console.log(tickersResponse.result);
+  console.log(tickersResponse.ok);
 }
 ```
 

@@ -102,15 +102,15 @@ export class WatchlistQuotesRequest extends ExtendedListenableSubscribable<
     const watchlistQuotes = await this.detailedQuotesRestful.getDetailedQuotes(symbols.toString());
 
     if (watchlistQuotes.err) {
-      this.call({
+      this.dispatch({
         error: watchlistQuotes.err,
         errorType: 'get_detailed_quotes_error',
         type: 'error',
       });
     } else {
-      this.call({
+      this.dispatch({
         type: 'get_detailed_quotes',
-        watchlistQuotes: watchlistQuotes.result,
+        watchlistQuotes: watchlistQuotes.ok,
       });
     }
     return watchlistQuotes;
@@ -123,15 +123,15 @@ export class WatchlistQuotesRequest extends ExtendedListenableSubscribable<
     const logos = await this.logosRestful.getQuotesLogos(symbols.toString(), params);
 
     if (logos.err) {
-      this.call({
+      this.dispatch({
         error: logos.err,
         errorType: 'get_logos_error',
         type: 'error',
       });
       return logos;
     } else {
-      this.call({
-        logos: logos.result.data,
+      this.dispatch({
+        logos: logos.ok.data,
         type: 'get_quotes_logos',
       });
       return logos;
@@ -142,15 +142,15 @@ export class WatchlistQuotesRequest extends ExtendedListenableSubscribable<
     const delayedQuotes = await this.delayedRestful.getDelayedQuotes(symbols.toString());
 
     if (delayedQuotes.err) {
-      this.call({
+      this.dispatch({
         error: delayedQuotes.err,
         errorType: 'get_delayed_quotes_error',
         type: 'error',
       });
       return { err: delayedQuotes.err };
     } else {
-      this.call({
-        quotes: delayedQuotes.result,
+      this.dispatch({
+        quotes: delayedQuotes.ok,
         type: 'get_delayed_quotes',
       });
 
@@ -162,15 +162,15 @@ export class WatchlistQuotesRequest extends ExtendedListenableSubscribable<
     const tickerDetails = await this.tickerRestful.getTickerDetails(symbols.toString());
 
     if (tickerDetails.err) {
-      this.call({
+      this.dispatch({
         error: tickerDetails.err,
         errorType: 'get_ticker_details_error',
         type: 'error',
       });
       return { err: tickerDetails.err };
     } else {
-      this.call({
-        result: tickerDetails.result,
+      this.dispatch({
+        result: tickerDetails.ok,
         type: 'get_ticker_details',
       });
 
@@ -186,7 +186,7 @@ export class WatchlistQuotesRequest extends ExtendedListenableSubscribable<
     const shortInterests = await this.interestRestful.getShortInterests(params);
 
     if (shortInterests.err) {
-      this.call({
+      this.dispatch({
         error: shortInterests.err,
         errorType: 'get_short_interest_error',
         type: 'error',
@@ -194,13 +194,13 @@ export class WatchlistQuotesRequest extends ExtendedListenableSubscribable<
 
       return { err: shortInterests.err };
     } else {
-      this.call({
-        shortInterest: shortInterests.result,
+      this.dispatch({
+        shortInterest: shortInterests.ok,
         type: 'get_short_interest',
       });
     }
 
-    return { result: shortInterests?.result?.shortInterestData };
+    return { ok: shortInterests?.ok?.shortInterestData };
   };
 
   protected onSubscribe = (): WatchlistQuotesFunctions => ({

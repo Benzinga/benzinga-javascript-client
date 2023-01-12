@@ -71,7 +71,7 @@ export class QuoteSocket extends ListenableSubscribable<QuoteSocketEvent> {
   public authorizeSession = (): void => {
     const authKey = this.session.getManager(AuthenticationManager).getBenzingaToken() ?? '';
     if (authKey === '') {
-      this.call({
+      this.dispatch({
         error: new SafeError('quotes requires you to be logged in to work', 'quotes_error'),
         errorType: 'quote:quote_socket_requires_you_to_be_logged_in',
         type: 'error',
@@ -190,7 +190,7 @@ export class QuoteSocket extends ListenableSubscribable<QuoteSocketEvent> {
       }
       const authKey = authenticationManager.getBenzingaToken();
       if (authKey === undefined) {
-        this.call({
+        this.dispatch({
           error: new SafeError('quotes requires you to be logged in to work', 'quotes_error'),
           errorType: 'quote:quote_socket_requires_you_to_be_logged_in',
           type: 'error',
@@ -219,14 +219,14 @@ export class QuoteSocket extends ListenableSubscribable<QuoteSocketEvent> {
               case 'initialQuote':
                 (msg.data ?? []).forEach(quote => {
                   if (quote.quote) {
-                    this.call({
+                    this.dispatch({
                       detail: quote.detail,
                       quote: quote.quote,
                       symbol: quote.symbol,
                       type: 'quote:initial_quote',
                     });
                   } else {
-                    this.call({
+                    this.dispatch({
                       detail: quote.detail,
                       symbol: quote.symbol,
                       type: 'quote:initial_detail_quote',
@@ -236,7 +236,7 @@ export class QuoteSocket extends ListenableSubscribable<QuoteSocketEvent> {
                 break;
               case 'quote':
                 (msg.data ?? []).forEach(quote => {
-                  this.call({ quote: quote, type: 'quote:quote' });
+                  this.dispatch({ quote: quote, type: 'quote:quote' });
                 });
                 break;
               case 'connected':
@@ -255,7 +255,7 @@ export class QuoteSocket extends ListenableSubscribable<QuoteSocketEvent> {
       case 'reconnected':
         this.securityQueue = [];
         this.isAuthorized = false;
-        this.call({ type: 'reconnected' });
+        this.dispatch({ type: 'reconnected' });
         break;
     }
   };

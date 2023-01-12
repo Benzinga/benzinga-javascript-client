@@ -74,17 +74,17 @@ export class QuoteFeed extends ExtendedSubscribable<QuoteFeedEvent, QuoteFunctio
     switch (event.type) {
       case 'quote:initial_detail_quote':
         this.detail = event.detail;
-        this.call({ detail: this.detail, type: 'quote:quote_details' });
+        this.dispatch({ detail: this.detail, type: 'quote:quote_details' });
         break;
       case 'quote:initial_quote':
         this.detail = event.detail;
-        this.call({ detail: this.detail, type: 'quote:quote_details' });
+        this.dispatch({ detail: this.detail, type: 'quote:quote_details' });
         this.quote = { ...this.quote, ...this.getCurrentPriceAndVolume(event.quote) };
-        this.call({ quote: this.quote, type: 'quote:quote' });
+        this.dispatch({ quote: this.quote, type: 'quote:quote' });
         break;
       case 'quote:quote':
         this.quote = { ...this.quote, ...this.getCurrentPriceAndVolume(event.quote) };
-        this.call({ quote: this.quote, type: 'quote:quote' });
+        this.dispatch({ quote: this.quote, type: 'quote:quote' });
         break;
     }
   };

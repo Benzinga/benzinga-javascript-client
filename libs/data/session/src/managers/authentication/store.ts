@@ -55,18 +55,18 @@ export class AuthenticationStore extends ListenableSubscribable<AuthenticationSt
       auth !== undefined &&
       auth?.user.accessType !== 'anonymous'
     ) {
-      this.call({
+      this.dispatch({
         auth,
         type: 'authentication:logged_in',
       });
     }
     if (auth?.key !== oldAuthentication?.key) {
-      this.call({
+      this.dispatch({
         token: auth?.key,
         type: 'authentication:session_token_update',
       });
     }
-    this.call({
+    this.dispatch({
       auth,
       type: 'authentication:session_update',
     });
@@ -75,7 +75,7 @@ export class AuthenticationStore extends ListenableSubscribable<AuthenticationSt
       oldAuthentication.user.accessType !== 'anonymous' &&
       (auth === undefined || auth?.user.accessType === 'anonymous')
     ) {
-      this.call({
+      this.dispatch({
         type: 'authentication:logged_out',
       });
     }
@@ -83,7 +83,7 @@ export class AuthenticationStore extends ListenableSubscribable<AuthenticationSt
 
   public refreshAuthenticationSession = (refresh: RefreshResponse): void => {
     if (this.authentication === undefined) {
-      this.call({
+      this.dispatch({
         error: new SafeError('authentication', 'cannot refresh while not logged in'),
         errorType: 'authentication:cannot_refresh_while_not_logged_in',
         type: 'error',
@@ -96,7 +96,7 @@ export class AuthenticationStore extends ListenableSubscribable<AuthenticationSt
       this.authentication.user.permissions = refresh.permissions;
       this.authentication.exp = refresh.exp;
 
-      this.call({
+      this.dispatch({
         auth: this.authentication,
         type: 'authentication:session_update',
       });

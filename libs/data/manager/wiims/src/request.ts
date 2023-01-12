@@ -101,7 +101,7 @@ export class WiimsRequest extends ExtendedListenableSubscribable<WiimsRequestEve
     const safeWiims = await this.restful.getWiims(egressWiimRequestParams(params));
 
     if (safeWiims.err) {
-      this.call({
+      this.dispatch({
         error: safeWiims.err,
         errorType: 'get_wiims_error',
         type: 'error',
@@ -111,15 +111,15 @@ export class WiimsRequest extends ExtendedListenableSubscribable<WiimsRequestEve
       };
     }
 
-    const wiims = ingressWiimResponse(safeWiims.result!);
+    const wiims = ingressWiimResponse(safeWiims.ok);
 
-    this.call({
+    this.dispatch({
       type: 'wiims_received',
       wiims: wiims,
     });
 
     return {
-      result: wiims,
+      ok: wiims,
     };
   };
 

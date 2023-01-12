@@ -48,14 +48,14 @@ export class SecuritiesRequest extends ExtendedListenableSubscribable<Financials
   public getFinancials = async (query: FinancialsQuery): SafePromise<Financials[]> => {
     const financials = await ingestSecurities(this.restful.getFinancials(query));
     if (financials.err) {
-      this.call({
+      this.dispatch({
         error: financials.err,
         errorType: 'get_financials_error',
         type: 'error',
       });
     } else {
-      this.call({
-        financials: financials.result,
+      this.dispatch({
+        financials: financials.ok,
         type: 'financials_received',
       });
     }

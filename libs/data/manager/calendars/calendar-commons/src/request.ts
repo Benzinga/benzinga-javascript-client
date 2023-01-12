@@ -31,7 +31,7 @@ export class CommonCalendarRequest<T extends string, E> extends Subscribable<Com
     );
 
     if (calendarDataResponse.err) {
-      this.call({
+      this.dispatch({
         error: calendarDataResponse.err,
         errorType: CommonCalendarErrorType.GET_DATA,
         parameters: params,
@@ -41,15 +41,15 @@ export class CommonCalendarRequest<T extends string, E> extends Subscribable<Com
       return { err: calendarDataResponse.err };
     } else {
       const result = options.responseIsEntitiesList
-        ? calendarDataResponse.result
-        : calendarDataResponse?.result?.[this.calendarTypeName] || [];
+        ? calendarDataResponse.ok
+        : calendarDataResponse?.ok?.[this.calendarTypeName] || [];
 
-      this.call({
+      this.dispatch({
         result,
         type: `${this.calendarTypeName as T}:fetched_data`,
       });
 
-      return { result };
+      return { ok: result };
     }
   };
 }

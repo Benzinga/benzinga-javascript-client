@@ -41,18 +41,18 @@ export class MoversRequest extends ExtendedListenableSubscribable<MoversRequestE
   }
 
   public getMovers = async (query: MoversQuery): SafePromise<Movers | undefined> => {
-    this.call({
+    this.dispatch({
       type: 'movers:retrieving_movers',
     });
     const res = await this.restful.getMovers(query);
     if (res.err) {
-      this.call({
+      this.dispatch({
         error: res.err,
         errorType: 'movers:get_movers_error',
         type: 'error',
       });
     }
-    return { result: res.result?.result };
+    return { ok: res.ok?.result };
   };
 
   protected onSubscribe = (): MoversFunctions => ({
