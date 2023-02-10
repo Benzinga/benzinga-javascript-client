@@ -1,5 +1,5 @@
 export interface MoversResponse {
-  result?: Movers;
+  result: Movers;
 }
 
 /**

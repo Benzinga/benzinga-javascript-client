@@ -73,6 +73,7 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
   private googleClientId: string;
   private storeSubscription?: Subscription<AuthenticationStore>;
   private requestSubscription?: Subscription<AuthenticationRequest>;
+  private refreshTimeout?: ReturnType<typeof setInterval>;
   private apiKey?: string;
 
   constructor(session: Session) {
@@ -180,9 +181,6 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
       const auth = await this.request.login(username, password, sessionOptions, this.store.getFingerprint());
       if (auth.ok) {
         this.store.updateAuthenticationSession(auth.ok);
-        // const exp = new Date(auth.ok.exp);
-        // setTimeout(() => this.refresh(), exp.getTime() - 30000 - Date.now());
-        setTimeout(() => this.refresh(), 30000);
       }
       this.didAuthorize();
       return auth;
@@ -220,8 +218,6 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
     const auth = await this.request.register(user, sessionOptions, this.store.getFingerprint());
     if (auth.ok) {
       this.store.updateAuthenticationSession(auth.ok);
-      // we should probibly do this but i need to ask will
-      //setTimeout(() => this.refresh(), 30000);
     }
     this.didAuthorize();
     return auth;
@@ -324,11 +320,6 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
       } else {
         return auth;
       }
-      // } else {
-      //   // This is a hack for the CI environment
-      //   if (typeof localStorage !== 'undefined') {
-      //     localStorage.setItem('benzingaToken', token);
-      //   }
     }
     const auth = this.store.getAuthentication();
     if (auth) {
@@ -414,12 +405,14 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
   };
 
   private refresh = async () => {
-    const auth = await this.request.refresh(this.store.getAuthentication()?.key);
+    const auth = await this.request.refresh();
     if (auth.ok && this.store.getAuthentication()) {
       this.store.refreshAuthenticationSession(auth.ok);
-      // this.authentication.exp = auth.ok.exp;
-      // setTimeout(() => this.refresh(), auth.ok.exp - 30000 - Date.now());
-      setTimeout(() => this.refresh(), 30000);
+
+      if (this.refreshTimeout) {
+        clearTimeout(this.refreshTimeout);
+      }
+      this.refreshTimeout = setTimeout(() => this.refresh(), Math.max((auth.ok.exp - Date.now() / 1000) * (2 / 3), 0));
     }
     return auth;
   };
@@ -439,6 +432,7 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
       if (auth.ok) {
         this.store.updateAuthenticationSession(auth.ok);
       }
+      this.refresh();
       return auth;
     }
     return { err: new SafeError('already logged in', 'authentication_manager') };

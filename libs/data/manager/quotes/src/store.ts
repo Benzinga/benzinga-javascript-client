@@ -1,10 +1,11 @@
 import { QuoteFeedExtended } from './feed';
-import { DetailsQuote, ShortInterestParams, ShortInterestsDataSet, Logo, SymbolType } from './entities';
+import { DetailsQuote, ShortInterestParams, ShortInterestsDataSet, Logo, SymbolType, DelayedQuote } from './entities';
 
 export class QuoteStore {
   private quoteFeeds = new Map<SymbolType, QuoteFeedExtended>();
   private activeQuoteFeeds = new Set<QuoteFeedExtended>();
   private detailedQuotes = new Map<SymbolType, DetailsQuote>();
+  private delayedQuotes = new Map<SymbolType, DelayedQuote>();
   private quotesLogos = new Map<SymbolType, Logo>();
   private shortInterestQuotes = new WeakMap<ShortInterestParams, ShortInterestsDataSet>();
 
@@ -48,6 +49,18 @@ export class QuoteStore {
 
   public setDetailedQuotes = (symbol: SymbolType, quote: DetailsQuote): void => {
     this.detailedQuotes.set(symbol, quote);
+  };
+
+  public getDelayedQuotes = (): Map<string, DelayedQuote> => {
+    return this.delayedQuotes;
+  };
+
+  public getDelayedQuote = (symbol: SymbolType): DelayedQuote | undefined => {
+    return this.delayedQuotes.get(symbol);
+  };
+
+  public setDelayedQuotes = (symbol: SymbolType, quote: DelayedQuote): void => {
+    this.delayedQuotes.set(symbol, quote);
   };
 
   public addQuotesLogos = (symbol: SymbolType, logo: Logo): void => {

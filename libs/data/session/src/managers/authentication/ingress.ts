@@ -80,6 +80,7 @@ export interface IngressSubscription {
   product: string;
   product_name: string;
   status: string;
+  total_price: string;
   trial_end: string | null;
   uuid: string;
 }
@@ -174,6 +175,7 @@ export const ingestSubscription = (subscriptions: IngressSubscription): UserSubs
   product: subscriptions.product,
   productName: subscriptions.product_name,
   status: subscriptions.status as SubscriptionStatus,
+  totalPrice: subscriptions.total_price,
   trialEnd: subscriptions.trial_end,
   uuid: subscriptions.uuid,
 });

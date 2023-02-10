@@ -63,10 +63,10 @@ export class SecuritiesManager extends ExtendedSubscribable<FinancialsRequestEve
    * @memberof SecuritiesManager
    */
   public getFinancials = async (query: FinancialsQuery): SafePromise<Financials[]> => {
-    if (this.store.getFinancials() === undefined) {
+    if (this.store.getFinancials(query) === undefined) {
       const financials = await this.request.getFinancials(query);
       if (financials.ok) {
-        if (this.store.setFinancials(financials.ok)) {
+        if (this.store.setFinancials(query, financials.ok)) {
           this.dispatch({
             financials: financials.ok,
             type: 'financials_updated',
@@ -75,7 +75,7 @@ export class SecuritiesManager extends ExtendedSubscribable<FinancialsRequestEve
       }
       return financials;
     } else {
-      return { ok: this.store.getFinancials() ?? [] };
+      return { ok: this.store.getFinancials(query) ?? [] };
     }
   };
 

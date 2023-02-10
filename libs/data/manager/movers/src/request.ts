@@ -1,6 +1,6 @@
 import { SafeError, SafePromise } from '@benzinga/safe-await';
 import { ExtendedListenableSubscribable } from '@benzinga/subscribable';
-import { MoversQuery, Movers } from './entities';
+import { Movers, MoversQuery } from './entities';
 import { MoversRestful } from './restful';
 import { Session } from '@benzinga/session';
 
@@ -40,7 +40,7 @@ export class MoversRequest extends ExtendedListenableSubscribable<MoversRequestE
     this.restful = new MoversRestful(session);
   }
 
-  public getMovers = async (query: MoversQuery): SafePromise<Movers | undefined> => {
+  public getMovers = async (query: MoversQuery): SafePromise<Movers> => {
     this.dispatch({
       type: 'movers:retrieving_movers',
     });
@@ -51,10 +51,10 @@ export class MoversRequest extends ExtendedListenableSubscribable<MoversRequestE
         errorType: 'movers:get_movers_error',
         type: 'error',
       });
+      return { err: res.err };
     }
-    return { ok: res.ok?.result };
+    return { ok: res?.ok?.result };
   };
-
   protected onSubscribe = (): MoversFunctions => ({
     getMovers: this.getMovers,
   });

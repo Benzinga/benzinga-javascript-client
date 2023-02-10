@@ -2,7 +2,6 @@ import { SafeError, SafePromise } from '@benzinga/safe-await';
 import { ExtendedListenableSubscribable } from '@benzinga/subscribable';
 
 import {
-  DelayedQuotesResponse,
   Logo,
   ScheduleResponse,
   ShortInterestParams,
@@ -11,6 +10,7 @@ import {
   TickerDetailsResponse,
   DetailedQuotesBySymbol,
   GetQuotesLogoParams,
+  DelayedQuote,
 } from './entities';
 import {
   QuotesScheduleRestful,
@@ -51,7 +51,7 @@ interface LogoQuotesEvent {
 }
 
 interface DelayedQuotesEvent {
-  quotes: DelayedQuotesResponse;
+  quotes: DelayedQuote;
   type: 'get_delayed_quotes';
 }
 interface TickerDetailsEvent {
@@ -138,7 +138,7 @@ export class WatchlistQuotesRequest extends ExtendedListenableSubscribable<
     }
   };
 
-  public getDelayedQuotes = async (symbols: StockSymbol[]): SafePromise<DelayedQuotesResponse> => {
+  public getDelayedQuotes = async (symbols: StockSymbol[]): SafePromise<DelayedQuote> => {
     const delayedQuotes = await this.delayedRestful.getDelayedQuotes(symbols.toString());
 
     if (delayedQuotes.err) {

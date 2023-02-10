@@ -801,7 +801,7 @@ Complete financials data
 ## FinancialsQuery
 Financials request query
 
-* `symbols` (string) - CSV symbols list for filtering
+* `symbols` (StockSymbol) - CSV symbols list for filtering
 
 * `period` (string) - Period of the query
 

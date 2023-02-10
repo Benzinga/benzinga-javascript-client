@@ -1,6 +1,6 @@
-import { Authentication, RefreshResponse } from './entities';
+import { Authentication, Permission, RefreshResponse } from './entities';
 import { ListenableSubscribable } from '@benzinga/subscribable';
-import { deepEqual } from '@benzinga/utils';
+import { deepEqual, sortByString } from '@benzinga/utils';
 import { SafeError } from '@benzinga/safe-await';
 
 interface AuthenticationLoggedInEvent {
@@ -35,6 +35,25 @@ export type AuthenticationStoreEvent =
   | AuthenticationLoggedOutEvent
   | AuthenticationRefreshErrorEvent;
 
+const sortPermissions = (permissions: Permission[]) => {
+  if (!Array.isArray(permissions)) return [];
+  return permissions.sort((a, b) => {
+    const action = sortByString(a.action, b.action);
+    if (action !== 0) {
+      return action;
+    }
+    const resource = sortByString(a.resource, b.resource);
+    if (resource !== 0) {
+      return resource;
+    }
+    const effect = sortByString(a.effect ?? '', b.effect ?? '');
+    if (effect !== 0) {
+      return effect;
+    }
+    return 0;
+  });
+};
+
 export class AuthenticationStore extends ListenableSubscribable<AuthenticationStoreEvent> {
   private authentication: Authentication | undefined;
   private fingerprint?: unknown;
@@ -50,6 +69,10 @@ export class AuthenticationStore extends ListenableSubscribable<AuthenticationSt
   public updateAuthenticationSession = (auth: Authentication | undefined): void => {
     const oldAuthentication = this.authentication;
     this.authentication = auth;
+    if (this.authentication) {
+      const sortedPermissions = sortPermissions(this.authentication.user?.permissions ?? []);
+      this.authentication.user.permissions = sortedPermissions;
+    }
     if (
       (oldAuthentication === undefined || oldAuthentication.user.accessType === 'anonymous') &&
       auth !== undefined &&
@@ -88,12 +111,15 @@ export class AuthenticationStore extends ListenableSubscribable<AuthenticationSt
         errorType: 'authentication:cannot_refresh_while_not_logged_in',
         type: 'error',
       });
-    } else if (
+      return;
+    }
+    const sortedPermissions = sortPermissions(refresh?.permissions ?? []);
+    if (
       this.authentication.user.accessType !== refresh.accessType ||
-      deepEqual(this.authentication.user.permissions, refresh.permissions) === false
+      deepEqual(this.authentication.user.permissions, sortedPermissions) === false
     ) {
       this.authentication.user.accessType = refresh.accessType;
-      this.authentication.user.permissions = refresh.permissions;
+      this.authentication.user.permissions = sortedPermissions;
       this.authentication.exp = refresh.exp;
 
       this.dispatch({

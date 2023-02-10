@@ -894,6 +894,14 @@ export interface DelayedQuote {
    * @memberof DelayedQuote
    */
   shortDescription?: string;
+  sector?: string;
+  industry?: string;
+  marketCap?: number;
+  sharesOutstanding?: number;
+  sharesFloat?: number;
+  pe?: number;
+  forwardPE?: number;
+  issuerShortName?: string;
 }
 
 /**

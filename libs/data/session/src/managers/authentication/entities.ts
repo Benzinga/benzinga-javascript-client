@@ -49,7 +49,7 @@ export interface User {
   id: number;
   lastName: string;
   layouts?: SavedLayout[] | undefined;
-  permissions: Permission[];
+  permissions?: Permission[];
   phoneInfo: PhoneInfo | null;
   phoneNumber: string;
   profileImage: string;
@@ -138,6 +138,7 @@ export interface UserSubscription {
   product: string;
   productName: string;
   status: SubscriptionStatus;
+  totalPrice: string;
   trialEnd: string | null;
   uuid: string;
 }

@@ -1,12 +1,12 @@
 import { getGlobalSession } from '../session';
-import { NewsManager } from '@benzinga/news-manager';
+import { AdvancedNewsManager } from '@benzinga/advanced-news-manager';
 
 export default async () => {
   //Obtain manager instance
-  const newsManager = getGlobalSession().getManager(NewsManager);
+  const advancedNewManager = getGlobalSession().getManager(AdvancedNewsManager);
 
   //First let's just fetch
-  const categoriesResult = await newsManager.getCategories();
+  const categoriesResult = await advancedNewManager.getCategories();
 
   if (categoriesResult.err) {
     console.error(`Categories error: `, categoriesResult.err);

@@ -2,7 +2,7 @@ export class QuotesEnvironment {
   public static getName = () => 'benzinga-quotes';
   public static getEnvironment = (env: Record<string, string>) => ({
     delayedQuoteKey: env.delayedQuoteKey ?? '81DC3A5A39D6D1A9D26FA6DF35A34',
-    delayedQuoteUrl: new URL(env.delayedQuoteUrl ?? 'https://data-api.benzinga.com/rest/'),
+    delayedQuoteUrl: new URL(env.delayedQuoteUrl ?? 'https://data-api-next.benzinga.com/rest/'),
 
     logosKey: env.logosKey ?? '539775a6a04740fc9f7530f102afa105',
     logosUrl: new URL(env.logosUrl ?? 'https://api.benzinga.com/api/'),

@@ -1,13 +1,8 @@
-import { Financials } from './entities';
+import { StockSymbol } from '@benzinga/session';
+import { Financials, FinancialsQuery, Period } from './entities';
 
 export class SecuritiesStore {
-  private date?: Date;
-  private financials?: Financials[];
-
-  constructor() {
-    this.date = undefined;
-    this.financials = undefined;
-  }
+  private financials = new Map<StockSymbol, Map<Period, { date: Date; financials: Financials[] }>>();
 
   public static compareFinancials = (lhs: Financials[], rhs: Financials[]): boolean => {
     return lhs?.every(financial => {
@@ -20,21 +15,28 @@ export class SecuritiesStore {
     });
   };
 
-  public getFinancials = (): Financials[] | undefined => {
+  public getFinancials = (query: FinancialsQuery): Financials[] | undefined => {
     const ONE_MIN = 60 * 1000; /* ms */
-    const lastCalled = this.date?.getTime() ?? 0;
-    if (this.financials === undefined || Date.now() - lastCalled > ONE_MIN) {
+    const financial = this.financials.get(query.symbols)?.get(query.period);
+    const lastCalled = financial?.date.getTime() ?? 0;
+    if (financial === undefined || Date.now() - lastCalled > ONE_MIN) {
       return undefined;
     }
-    return this.financials;
+    return financial.financials;
   };
 
-  public setFinancials = (financials: Financials[]): boolean => {
-    if (this.financials && SecuritiesStore.compareFinancials(this.financials, financials)) {
-      this.date = new Date();
+  public setFinancials = (query: FinancialsQuery, financials: Financials[]): boolean => {
+    const financial = this.financials.get(query.symbols)?.get(query.period);
+    if (financial?.financials && SecuritiesStore.compareFinancials(financial.financials, financials)) {
+      this.financials.get(query.symbols)?.set(query.period, { ...financial, date: new Date() });
       return true;
     } else {
-      this.financials = financials;
+      const fin = this.financials.get(query.symbols);
+      if (fin) {
+        fin.set(query.period, { date: fin.get(query.period)?.date ?? new Date(), financials });
+      } else {
+        this.financials.set(query.symbols, new Map([[query.period, { date: new Date(), financials }]]));
+      }
       return false;
     }
   };

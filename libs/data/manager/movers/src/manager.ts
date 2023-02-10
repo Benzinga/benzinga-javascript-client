@@ -44,7 +44,7 @@ export class MoversManager extends ExtendedSubscribable<MoversManagerEvent, Move
    * @param {MoversQuery} query
    * @memberof MoversManager
    */
-  public getMovers = async (query: MoversQuery): SafePromise<Movers | undefined> => {
+  public getMovers = async (query: MoversQuery): SafePromise<Movers> => {
     return await this.request.getMovers(query);
   };
 

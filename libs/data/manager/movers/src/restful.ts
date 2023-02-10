@@ -20,12 +20,11 @@ export class MoversRestful extends RestfulClient {
   }
 
   getMovers = (query: MoversQuery): SafePromise<MoversResponse> => {
-    const params = Object.assign(query);
-    if (query.screenerQuery && typeof query.screenerQuery == 'object') {
+    const params: MoversQuery = Object.assign(query);
+    if (query.screenerQuery && typeof query.screenerQuery === 'object') {
       params.screenerQuery = this.buildScreenerQuery(query?.screenerQuery);
     }
-    // let key: string | undefined;
-    // if ((key = this.session.getEnvironment(MoversEnvironment).key)) params['apikey'] = key; // this should be moved to server side env
+    params['apikey'] = this.session.getEnvironment(MoversEnvironment).key;
     const url = this.URL('movers', params);
     return this.get(url, { allowsAnonymousAuth: true, mode: 'cors' });
   };

@@ -2233,6 +2233,8 @@ export interface Financials {
   valuationRatios: ValuationRatio[];
 }
 
+export type Period = string;
+
 /**
  * Financials request query
  *
@@ -2243,16 +2245,16 @@ export interface FinancialsQuery {
   /**
    * CSV symbols list for filtering
    *
-   * @type {string}
+   * @type {StockSymbol}
    * @memberof FinancialsQuery
    */
-  symbols?: string;
+  symbols: StockSymbol;
 
   /**
    * Period of the query
    *
-   * @type {string}
+   * @type {Period}
    * @memberof FinancialsQuery
    */
-  period?: string;
+  period: Period;
 }

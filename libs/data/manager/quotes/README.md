@@ -160,11 +160,11 @@ Will use internal cache when possible
 
 
 ```ts
-getDelayedQuotes (symbols: StockSymbol[]): SafePromise<DelayedQuotesResponse>
+getDelayedQuotes (symbols: StockSymbol[]): SafePromise<DelayedQuote>
 ```
 Fetch delayed quotes data for given symbols from server
 
-*Returns:* SafePromise<DelayedQuotesResponse>
+*Returns:* SafePromise<Delayed[Quote](#quote)>
 
 
 ```ts
@@ -534,6 +534,22 @@ Delayed quote
 * `primary` (boolean) - Is primary
 
 * `shortDescription` (string) - Short description
+
+* `sector` (string) 
+
+* `industry` (string) 
+
+* `marketCap` (number) 
+
+* `sharesOutstanding` (number) 
+
+* `sharesFloat` (number) 
+
+* `pe` (number) 
+
+* `forwardPE` (number) 
+
+* `issuerShortName` (string) 
 
 ## TickerCompany
 Company ticker info

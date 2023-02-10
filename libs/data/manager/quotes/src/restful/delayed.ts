@@ -1,7 +1,7 @@
 import { SafePromise } from '@benzinga/safe-await';
 
 import { RestfulClient } from '@benzinga/session';
-import { DelayedQuotesResponse } from '../entities';
+import { DelayedQuote } from '../entities';
 import { Session } from '@benzinga/session';
 import { StockSymbol } from '@benzinga/session';
 import { QuotesEnvironment } from '../environment';
@@ -18,7 +18,7 @@ export class QuotesDelayedRestful extends RestfulClient {
     );
   }
 
-  getDelayedQuotes = async (symbols: StockSymbol): SafePromise<DelayedQuotesResponse> => {
+  getDelayedQuotes = async (symbols: StockSymbol): SafePromise<DelayedQuote> => {
     const url = this.URL(`v2/quoteDelayed`, {
       apikey: this.session.getEnvironment(QuotesEnvironment).delayedQuoteKey,
       symbols,

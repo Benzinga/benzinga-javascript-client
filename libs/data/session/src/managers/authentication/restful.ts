@@ -27,10 +27,10 @@ export class AuthenticationRestful extends RestfulClient {
     sessionOptions?: SessionOptions,
     fingerprint?: unknown,
   ): SafePromise<IngressAuthentication> => {
-    const url = this.URL(
-      'api/v1/account/login/',
-      sessionOptions ?? { include_cards: true, include_perms: true, include_subs: true },
-    );
+    const url = this.URL('api/v1/account/login/', {
+      max_layout_version: this.session.getEnvironment(AuthenticationEnvironment).maxLayoutVersion,
+      ...(sessionOptions ?? { include_cards: true, include_perms: true, include_subs: true }),
+    });
     return this.post(url, { email, fingerprint, password }, { allowsAnonymousAuth: true });
   };
 
@@ -57,16 +57,21 @@ export class AuthenticationRestful extends RestfulClient {
   public refresh = (token?: string): SafePromise<IngressRefreshResponse> => {
     const url = this.URL('api/v1/account/refresh/');
     if (token) {
-      return this.post(url, {});
+      return this.post(url, { refresh: token }, { allowsAnonymousAuth: true });
     } else {
-      return this.post(url);
+      return this.post(url, undefined, { allowsAnonymousAuth: true });
     }
   };
 
   public getSession = (token?: string, sessionOptions?: SessionOptions): SafePromise<IngressAuthentication> => {
     const url = this.URL('api/v1/account/session/', {
       allow_anonymous: true,
-      ...(sessionOptions ?? { include_cards: true, include_perms: true, include_subs: true }),
+      max_layout_version: this.session.getEnvironment(AuthenticationEnvironment).maxLayoutVersion,
+      ...(sessionOptions ?? {
+        include_cards: true,
+        include_perms: true,
+        include_subs: true,
+      }),
     });
     // TODO remove this once pro and bznext uses authManager to login
 

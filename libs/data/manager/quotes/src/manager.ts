@@ -1,7 +1,6 @@
 import { SafePromise, SafeType } from '@benzinga/safe-await';
 import { ExtendedSubscribable, Subscription } from '@benzinga/subscribable';
 import {
-  DelayedQuotesResponse,
   Logo,
   Quote,
   QuoteDetail,
@@ -12,6 +11,7 @@ import {
   ShortInterestsDataSet,
   DetailedQuotesBySymbol,
   GetQuotesLogoParams,
+  DelayedQuote,
 } from './entities';
 import { QuoteSocketEvent, QuoteSocket } from './socket';
 import { QuoteFeedEvent, QuoteFeed, QuoteFeedExtended } from './feed';
@@ -19,6 +19,7 @@ import { QuoteStore } from './store';
 import { Session } from '@benzinga/session';
 import { StockSymbol } from '@benzinga/session';
 import { WatchlistQuotesRequest, WatchlistQuotesRequestEvent } from './request';
+import { QuoteFeedRestful, QuoteFeedRestfulEvent } from './feedRestful';
 
 interface WatchlistQuotesFunctions {
   getDetailedQuotes: QuotesManager['getDetailedQuotes'];
@@ -44,6 +45,7 @@ interface ShortInterestUpdateEvent {
 export type QuotesManagerEvent =
   | QuoteSocketEvent
   | QuoteFeedEvent
+  | QuoteFeedRestfulEvent
   | WatchlistQuotesRequestEvent
   | WatchlistUpdateEvent
   | ShortInterestUpdateEvent;
@@ -67,11 +69,15 @@ export class QuotesManager extends ExtendedSubscribable<QuotesManagerEvent, Watc
   private request: WatchlistQuotesRequest;
   private requestSubscription?: Subscription<WatchlistQuotesRequest>;
 
+  private feedRestful: QuoteFeedRestful;
+  private feedRestfulSubscription?: Subscription<QuoteFeedRestful>;
+
   constructor(session: Session) {
     super();
     this.socket = new QuoteSocket(session);
     this.store = new QuoteStore();
     this.request = new WatchlistQuotesRequest(session);
+    this.feedRestful = new QuoteFeedRestful(session, this.store);
   }
 
   /**
@@ -223,7 +229,7 @@ export class QuotesManager extends ExtendedSubscribable<QuotesManagerEvent, Watc
    * @param {StockSymbol[]} symbols
    * @memberof QuotesManager
    */
-  public getDelayedQuotes = async (symbols: StockSymbol[]): SafePromise<DelayedQuotesResponse> => {
+  public getDelayedQuotes = async (symbols: StockSymbol[]): SafePromise<DelayedQuote> => {
     return await this.request.getDelayedQuotes(symbols);
   };
 
@@ -304,14 +310,38 @@ export class QuotesManager extends ExtendedSubscribable<QuotesManagerEvent, Watc
     }
   };
 
+  public addSymbolSubscription(symbol: string): DelayedQuote | undefined {
+    const quote = this.feedRestful.getQuote(symbol);
+    if (quote) {
+      return quote;
+    } else {
+      this.feedRestful.addSymbolSubscription(symbol);
+      return undefined;
+    }
+  }
+
+  public addSymbolsSubscription(symbols: string[]): void {
+    this.feedRestful.addSymbolsSubscription(symbols);
+  }
+
+  public removeSymbolSubscription(symbol: string): void {
+    this.feedRestful.removeSymbolSubscription(symbol);
+  }
+
+  public removeSymbolsSubscription(symbols: string[]): void {
+    this.feedRestful.removeSymbolsSubscription(symbols);
+  }
+
   protected onFirstSubscription = (): void => {
     this.socketSubscription = this.socket.listen(event => this.dispatch(event));
     this.requestSubscription = this.request.listen(event => this.dispatch(event));
+    this.feedRestfulSubscription = this.feedRestful.listen(event => this.dispatch(event));
   };
 
   protected onZeroSubscriptions = (): void => {
     this.socketSubscription?.unsubscribe();
     this.requestSubscription?.unsubscribe();
+    this.feedRestfulSubscription?.unsubscribe();
   };
 
   protected onSubscribe = (): WatchlistQuotesFunctions => ({
