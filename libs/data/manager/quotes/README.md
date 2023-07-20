@@ -16,7 +16,7 @@ const session = createSession({
   }
 })
 
-const manager = session.getManager(ConferenceCallsManager);
+const manager = session.getManager(ConferenceCallsCalendarManager);
 ```
 
 Now can you use the manager for next features:
@@ -88,7 +88,7 @@ Feed for receiving data regarding quotes in real time
 
 Subscribe to needed events to receive respectful updates
 
-### Methods: 
+### Methods:
 ```ts
 getCurrentPriceAndVolume (quote: IncomingQuote): Quote
 ```
@@ -104,7 +104,7 @@ Main class for working with Quotes API
 
 To use, obtain an instance by calling session.getManager(QuotesManager)
 
-### Methods: 
+### Methods:
 ```ts
 getStore (): QuoteStore
 ```
@@ -160,11 +160,11 @@ Will use internal cache when possible
 
 
 ```ts
-getDelayedQuotes (symbols: StockSymbol[]): SafePromise<DelayedQuote>
+getDelayedQuotes (symbols: StockSymbol[]): SafePromise<DelayedQuotesResponse>
 ```
 Fetch delayed quotes data for given symbols from server
 
-*Returns:* SafePromise<Delayed[Quote](#quote)>
+*Returns:* SafePromise<DelayedQuotesResponse>
 
 
 ```ts
@@ -279,7 +279,7 @@ Initial quote data
 
 * `symbol` (string) - Quote symbol
 
-## DetailsQuote
+## DetailedQuote
 
 
 * `askPrice` (number) - Ask Price
@@ -376,124 +376,124 @@ Initial quote data
 
 * `volume` (number) - Volume
 
-* `error` ({ code: number; message: string; }) 
+* `error` ({ code: number; message: string; })
 
 ## Quote
 
 
-* `currentPrice` (number) 
+* `currentPrice` (number)
 
-* `currentPriceFormatted` (string) 
+* `currentPriceFormatted` (string)
 
-* `currentVolume` (number) 
+* `currentVolume` (number)
 
 * `lastTradeTime` (string) - Last Trade Time?
 
-* `postToPreChange` (number) 
+* `postToPreChange` (number)
 
-* `postToPrePercentChange` (number) 
+* `postToPrePercentChange` (number)
 
-* `regularHoursChange` (number) 
+* `regularHoursChange` (number)
 
-* `regularHoursPercentChange` (number) 
+* `regularHoursPercentChange` (number)
 
 ## SecuritySymbol
 
 
-* `cik` (number) 
+* `cik` (number)
 
-* `exchange` (string) 
+* `exchange` (string)
 
-* `name` (string) 
+* `name` (string)
 
-* `symbol` (string) 
+* `symbol` (string)
 
 ## Logo
 
 
-* `id` (string) 
+* `id` (string)
 
-* `search_key` (string) 
+* `search_key` (string)
 
-* `files` ([LogoFile](#logofile)) 
+* `files` ([LogoFile](#logofile))
 
-* `created_at` (Date) 
+* `created_at` (Date)
 
-* `updated_at` (Date) 
+* `updated_at` (Date)
 
 ## LogoFile
 
 
-* `logo_dark` (string) 
+* `logo_dark` (string)
 
-* `logo_light` (string) 
+* `logo_light` (string)
 
-* `logo_vector_dark` (string) 
+* `logo_vector_dark` (string)
 
-* `logo_vector_light` (string) 
+* `logo_vector_light` (string)
 
-* `mark_composite_dark` (string) 
+* `mark_composite_dark` (string)
 
-* `mark_composite_light` (string) 
+* `mark_composite_light` (string)
 
-* `mark_dark` (string) 
+* `mark_dark` (string)
 
-* `mark_light` (string) 
+* `mark_light` (string)
 
-* `mark_vector_dark` (string) 
+* `mark_vector_dark` (string)
 
-* `mark_vector_light` (string) 
+* `mark_vector_light` (string)
 
 ## DelayedQuote
 Delayed quote
 
 * `symbol` (string) - Change
 
-* `dxSymbol` (string) 
+* `dxSymbol` (string)
 
-* `exchange` (string) 
+* `exchange` (string)
 
-* `isoExchange` (string) 
+* `isoExchange` (string)
 
-* `bzExchange` (string) 
+* `bzExchange` (string)
 
-* `otcMarket` (string) 
+* `otcMarket` (string)
 
-* `otcTier` (string) 
+* `otcTier` (string)
 
-* `type` (string) 
+* `type` (string)
 
-* `name` (string) 
+* `name` (string)
 
-* `companyStandardName` (string) 
+* `companyStandardName` (string)
 
-* `description` (string) 
+* `description` (string)
 
-* `bidPrice` (number) 
+* `bidPrice` (number)
 
-* `askPrice` (number) 
+* `askPrice` (number)
 
-* `askSize` (number) 
+* `askSize` (number)
 
-* `bidSize` (number) 
+* `bidSize` (number)
 
-* `size` (number) 
+* `size` (number)
 
-* `bidTime` (number) 
+* `bidTime` (number)
 
-* `askTime` (number) 
+* `askTime` (number)
 
-* `lastTradePrice` (number) 
+* `lastTradePrice` (number)
 
-* `lastTradeTime` (number) 
+* `lastTradeTime` (number)
 
-* `change` (number) 
+* `change` (number)
 
 * `changePercent` (number) - Change Percent
 
 * `close` (number) - Close
 
-* `currency` (string) - Currency
+* `currency` (number) - Currency
 
 * `date` (string) - Date
 
@@ -535,41 +535,25 @@ Delayed quote
 
 * `shortDescription` (string) - Short description
 
-* `sector` (string) 
-
-* `industry` (string) 
-
-* `marketCap` (number) 
-
-* `sharesOutstanding` (number) 
-
-* `sharesFloat` (number) 
-
-* `pe` (number) 
-
-* `forwardPE` (number) 
-
-* `issuerShortName` (string) 
-
 ## TickerCompany
 Company ticker info
 
-* `exists` (boolean) 
+* `exists` (boolean)
 
-* `fiscalYearEnd` (number) 
+* `fiscalYearEnd` (number)
 
-* `longDescription` (string) 
+* `longDescription` (string)
 
 ## TickerFinancialStats
 
 
-* `dilutedEpsGrowth1Y` (number) 
+* `dilutedEpsGrowth1Y` (number)
 
-* `epsGrowth1Y` (number) 
+* `epsGrowth1Y` (number)
 
-* `operationRatiosAsOf1Y` (string) 
+* `operationRatiosAsOf1Y` (string)
 
-* `revenueGrowth1Y` (number) 
+* `revenueGrowth1Y` (number)
 
 ## TickerKeyStatistics
 
@@ -664,15 +648,15 @@ Company ticker info
 ## TickerSession
 
 
-* `endTime` (number) 
+* `endTime` (number)
 
-* `localEndDate` (string) 
+* `localEndDate` (string)
 
-* `localStartDate` (string) 
+* `localStartDate` (string)
 
-* `startTime` (number) 
+* `startTime` (number)
 
-* `type` (string) 
+* `type` (string)
 
 ## Schedule
 

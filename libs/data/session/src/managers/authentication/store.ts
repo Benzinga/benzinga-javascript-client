@@ -104,28 +104,30 @@ export class AuthenticationStore extends ListenableSubscribable<AuthenticationSt
     }
   };
 
-  public refreshAuthenticationSession = (refresh: RefreshResponse): void => {
+  public refreshAuthenticationSession = (refresh: RefreshResponse): boolean => {
     if (this.authentication === undefined) {
       this.dispatch({
         error: new SafeError('authentication', 'cannot refresh while not logged in'),
         errorType: 'authentication:cannot_refresh_while_not_logged_in',
         type: 'error',
       });
-      return;
+      return false;
+    }
+
+    if (refresh.exp > Date.now() / 1000) {
+      this.authentication.exp = refresh.exp;
     }
     const sortedPermissions = sortPermissions(refresh?.permissions ?? []);
-    if (
-      this.authentication.user.accessType !== refresh.accessType ||
-      deepEqual(this.authentication.user.permissions, sortedPermissions) === false
-    ) {
-      this.authentication.user.accessType = refresh.accessType;
+    if (deepEqual(this.authentication.user.permissions, sortedPermissions) === false) {
       this.authentication.user.permissions = sortedPermissions;
-      this.authentication.exp = refresh.exp;
 
       this.dispatch({
         auth: this.authentication,
         type: 'authentication:session_update',
       });
+      return true;
+    } else {
+      return false;
     }
   };
 }

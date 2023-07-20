@@ -2,7 +2,10 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../../dist/out-tsc",
-    "types": ["node", "web"]
+    "types": [
+      "node",
+      "web"
+    ]
   },
   "files": [
     "./src/index.d.ts",
@@ -10,6 +13,7 @@
   ],
   "exclude": [
     "**/*.spec.ts",
-    "**/*.spec.tsx"
+    "**/*.spec.tsx",
+    "jest.config.ts"
   ]
 }

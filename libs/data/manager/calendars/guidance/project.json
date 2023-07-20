@@ -1,0 +1,44 @@
+{
+  "name": "data-manager-calendars-guidance",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/data/manager/calendars/guidance/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/data/manager/calendars/guidance",
+        "main": "libs/data/manager/calendars/guidance/src/index.ts",
+        "tsConfig": "libs/data/manager/calendars/guidance/tsconfig.lib.json",
+        "assets": [
+          "libs/data/manager/calendars/guidance/*.md"
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/data/manager/calendars/guidance/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/data/manager/calendars/guidance"
+      ],
+      "options": {
+        "jestConfig": "libs/data/manager/calendars/guidance/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

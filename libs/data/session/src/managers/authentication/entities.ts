@@ -58,11 +58,13 @@ export interface User {
   tradeitToken: string;
   trialEndDate: string | null;
   uuid: string;
+  hubspot_id: string;
 }
 
 export interface RegisterUser {
   displayName?: string;
   email: string;
+  captcha?: string;
   firstName?: string;
   lastName?: string;
   password: string;
@@ -79,7 +81,6 @@ export interface Authentication {
 }
 
 export interface RefreshResponse {
-  accessType: AccessType;
   exp: number;
   permissions: Permission[];
 }

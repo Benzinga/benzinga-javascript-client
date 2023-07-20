@@ -1,0 +1,55 @@
+{
+  "name": "data-manager-quotes",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/data/manager/quotes/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/rollup:rollup",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/data/manager/quotes",
+        "entryFile": "libs/data/manager/quotes/src/index.ts",
+        "project": "libs/data/manager/quotes/package.json",
+        "tsConfig": "libs/data/manager/quotes/tsconfig.lib.json",
+        "assets": [
+          {
+            "glob": "libs/data/manager/quotes/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ],
+        "rollupConfig": [
+          "@nrwl/react/plugins/bundle-rollup"
+        ],
+        "external": [
+          "react/jsx-runtime"
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/data/manager/quotes/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/data/manager/quotes"
+      ],
+      "options": {
+        "jestConfig": "libs/data/manager/quotes/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

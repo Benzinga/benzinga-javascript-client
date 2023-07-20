@@ -1,0 +1,52 @@
+{
+  "name": "data-manager-securities",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/data/manager/securities/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/rollup:rollup",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/data/manager/securities",
+        "entryFile": "libs/data/manager/securities/src/index.ts",
+        "project": "libs/data/manager/securities/package.json",
+        "tsConfig": "libs/data/manager/securities/tsconfig.lib.json",
+        "assets": [
+          {
+            "glob": "libs/data/manager/securities/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ],
+        "rollupConfig": [
+          "@nrwl/react/plugins/bundle-rollup"
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/data/manager/securities/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/data/manager/securities"
+      ],
+      "options": {
+        "jestConfig": "libs/data/manager/securities/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

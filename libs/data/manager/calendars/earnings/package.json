@@ -1,0 +1,10 @@
+{
+  "name": "@benzinga/calendar-earnings-manager",
+  "version": "0.0.1",
+  "typedoc": {
+    "entryPoint": "./src/index.ts",
+    "readmeFile": "../README.md",
+    "displayName": "@benzinga/calendar-earnings",
+    "tsconfig": "./tsconfig.lib.json"
+  }
+}

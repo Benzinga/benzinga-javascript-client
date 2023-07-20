@@ -16,7 +16,7 @@ const session = createSession({
   }
 })
 
-const manager = session.getManager(ConferenceCallsManager);
+const manager = session.getManager(ConferenceCallsCalendarManager);
 ```
 
 Now can you use the manager for next features:

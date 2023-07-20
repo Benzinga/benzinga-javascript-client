@@ -1,12 +1,23 @@
 import { QuoteFeedExtended } from './feed';
-import { DetailsQuote, ShortInterestParams, ShortInterestsDataSet, Logo, SymbolType, DelayedQuote } from './entities';
+import {
+  DetailedQuote,
+  ShortInterestParams,
+  ShortInterestsDataSet,
+  Logo,
+  SymbolType,
+  DelayedQuote,
+  TickerDetail,
+  GetQuotesLogoParams,
+} from './entities';
+import { StockSymbol } from '@benzinga/session';
 
 export class QuoteStore {
   private quoteFeeds = new Map<SymbolType, QuoteFeedExtended>();
   private activeQuoteFeeds = new Set<QuoteFeedExtended>();
-  private detailedQuotes = new Map<SymbolType, DetailsQuote>();
+  private detailedQuotes = new Map<SymbolType, DetailedQuote>();
   private delayedQuotes = new Map<SymbolType, DelayedQuote>();
   private quotesLogos = new Map<SymbolType, Logo>();
+  private tickerDetails = new Map<StockSymbol, TickerDetail>();
   private shortInterestQuotes = new WeakMap<ShortInterestParams, ShortInterestsDataSet>();
 
   public addQuoteFeed = (quoteFeed: QuoteFeedExtended): QuoteFeedExtended => {
@@ -43,11 +54,11 @@ export class QuoteStore {
     return this.quoteFeeds.get(symbol);
   };
 
-  public getDetailedQuotes = (symbol: SymbolType): DetailsQuote | undefined => {
+  public getDetailedQuotes = (symbol: SymbolType): DetailedQuote | undefined => {
     return this.detailedQuotes.get(symbol);
   };
 
-  public setDetailedQuotes = (symbol: SymbolType, quote: DetailsQuote): void => {
+  public setDetailedQuotes = (symbol: SymbolType, quote: DetailedQuote): void => {
     this.detailedQuotes.set(symbol, quote);
   };
 
@@ -63,12 +74,20 @@ export class QuoteStore {
     this.delayedQuotes.set(symbol, quote);
   };
 
-  public addQuotesLogos = (symbol: SymbolType, logo: Logo): void => {
-    this.quotesLogos.set(symbol, logo);
+  public addQuotesLogos = (symbol: SymbolType, params: GetQuotesLogoParams | undefined, logo: Logo): void => {
+    if (params === undefined) {
+      this.quotesLogos.set(symbol, logo);
+    } else {
+      this.quotesLogos.set(JSON.stringify({ ...params, symbol }), logo);
+    }
   };
 
-  public getQuotesLogos = (symbol: SymbolType): Logo | undefined => {
-    return this.quotesLogos.get(symbol);
+  public getQuotesLogos = (symbol: SymbolType, params: GetQuotesLogoParams | undefined): Logo | undefined => {
+    if (params === undefined) {
+      return this.quotesLogos.get(symbol);
+    } else {
+      return this.quotesLogos.get(JSON.stringify({ ...params, symbol }));
+    }
   };
 
   public getShortInterest = (params: ShortInterestParams): ShortInterestsDataSet | undefined => {
@@ -77,5 +96,13 @@ export class QuoteStore {
 
   public setShortInterest = (params: ShortInterestParams, quotes: ShortInterestsDataSet): void => {
     this.shortInterestQuotes.set(params, quotes);
+  };
+
+  public getTickerDetails = (symbol: StockSymbol): TickerDetail | undefined => {
+    return this.tickerDetails.get(symbol);
+  };
+
+  public setTickerDetails = (details: TickerDetail): void => {
+    this.tickerDetails.set(details.symbol, details);
   };
 }

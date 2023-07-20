@@ -1,0 +1,10 @@
+{
+  "name": "@benzinga/calendar-commons",
+  "version": "0.0.1",
+  "typedoc": {
+    "entryPoint": "./src/index.ts",
+    "readmeFile": "../README.md",
+    "displayName": "@benzinga/calendar-commons",
+    "tsconfig": "./tsconfig.lib.json"
+  }
+}

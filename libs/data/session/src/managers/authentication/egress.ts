@@ -5,13 +5,14 @@ export interface EgressRegisterUser {
   confirm_password: string;
   display_name?: string;
   email: string;
+  captcha?: string;
   fingerprint: unknown;
   first_name?: string;
   hs_token: string | 'none';
   last_name?: string;
   password: string;
   phone_number?: string;
-  register_type: '' | 'pro_trial';
+  register_type: '' | 'pro_trial' | string;
 }
 
 const getHubSpotToken = (): string => {
@@ -29,18 +30,24 @@ const getHubSpotToken = (): string => {
   return 'none';
 };
 
-export const egressRegister = (info: RegisterUser, fingerprint?: unknown): EgressRegisterUser => {
+interface egressRegisterOptions {
+  register_type?: string;
+  fingerprint?: unknown;
+}
+
+export const egressRegister = (info: RegisterUser, options?: egressRegisterOptions): EgressRegisterUser => {
   const input: EgressRegisterUser = {
+    captcha: info.captcha ?? undefined,
     confirm_password: info.passwordConfirmation ?? info.password,
     display_name: info.displayName ?? undefined,
     email: info.email,
-    fingerprint: fingerprint,
+    fingerprint: options?.fingerprint,
     first_name: info.firstName ?? undefined,
     hs_token: getHubSpotToken(),
     last_name: info.lastName ?? undefined,
     password: info.password,
     phone_number: info.phoneNumber ?? undefined,
-    register_type: info.proTrial ? 'pro_trial' : '',
+    register_type: info.proTrial ? 'pro_trial' : options?.register_type ?? 'unknown',
   };
   return input;
 };

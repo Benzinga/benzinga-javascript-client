@@ -12,6 +12,7 @@ import {
   DetailedQuotesBySymbol,
   GetQuotesLogoParams,
   DelayedQuote,
+  TickerDetail,
 } from './entities';
 import { QuoteSocketEvent, QuoteSocket } from './socket';
 import { QuoteFeedEvent, QuoteFeed, QuoteFeedExtended } from './feed';
@@ -30,6 +31,10 @@ interface WatchlistUpdateEvent {
   type: 'quote:detailed_quotes';
 }
 
+interface TickerDetailEvent {
+  detail: TickerDetail[];
+  type: 'quote:ticker_details_quotes';
+}
 /**
  * Event fired when short interest quotes were updated
  *
@@ -48,7 +53,8 @@ export type QuotesManagerEvent =
   | QuoteFeedRestfulEvent
   | WatchlistQuotesRequestEvent
   | WatchlistUpdateEvent
-  | ShortInterestUpdateEvent;
+  | ShortInterestUpdateEvent
+  | TickerDetailEvent;
 
 /**
  * Quotes manager
@@ -195,7 +201,7 @@ export class QuotesManager extends ExtendedSubscribable<QuotesManagerEvent, Watc
   ): SafePromise<Logo[] | SafeType<Logo[]>> => {
     let numberOfCachedLogos = 0;
     const cachedLogos = symbols.reduce((acc, symbol) => {
-      const quotesLogo = this.store.getQuotesLogos(symbol);
+      const quotesLogo = this.store.getQuotesLogos(symbol, params);
       if (quotesLogo) {
         numberOfCachedLogos += 1;
         return [...acc, quotesLogo];
@@ -214,7 +220,7 @@ export class QuotesManager extends ExtendedSubscribable<QuotesManagerEvent, Watc
       } else {
         if (Array.isArray(response.ok)) {
           response.ok.forEach(logo => {
-            this.store.addQuotesLogos(logo.search_key, logo);
+            this.store.addQuotesLogos(logo.search_key, params, logo);
           });
         }
       }
@@ -222,6 +228,8 @@ export class QuotesManager extends ExtendedSubscribable<QuotesManagerEvent, Watc
       return { ok: response.ok.data };
     }
   };
+  public getQuotesLogosCached = (symbols: StockSymbol, params?: GetQuotesLogoParams): Logo | undefined =>
+    this.store.getQuotesLogos(symbols, params);
 
   /**
    * Fetch delayed quotes data for given symbols from server
@@ -229,7 +237,7 @@ export class QuotesManager extends ExtendedSubscribable<QuotesManagerEvent, Watc
    * @param {StockSymbol[]} symbols
    * @memberof QuotesManager
    */
-  public getDelayedQuotes = async (symbols: StockSymbol[]): SafePromise<DelayedQuote> => {
+  public getDelayedQuotes = async (symbols: StockSymbol[]): SafePromise<Record<StockSymbol, DelayedQuote>> => {
     return await this.request.getDelayedQuotes(symbols);
   };
 
@@ -239,8 +247,31 @@ export class QuotesManager extends ExtendedSubscribable<QuotesManagerEvent, Watc
    * @param {StockSymbol[]} symbols
    * @memberof QuotesManager
    */
+  public getTickerDetailsCache = (symbol: StockSymbol): TickerDetail | undefined => this.store.getTickerDetails(symbol);
   public getTickerDetails = async (symbols: StockSymbol[]): SafePromise<TickerDetailsResponse> => {
-    return await this.request.getTickerDetails(symbols);
+    const cachedQuotes = symbols.reduce<TickerDetail[]>((acc, symbol) => {
+      const shortInterestQuote = this.store.getTickerDetails(symbol);
+      if (shortInterestQuote) {
+        acc.push(shortInterestQuote);
+      }
+      return acc;
+    }, []);
+
+    if (symbols && cachedQuotes.length === symbols.length) {
+      return { ok: { result: cachedQuotes } };
+    } else {
+      const shortInterestQuotes = await this.request.getTickerDetails(symbols);
+      if (shortInterestQuotes.err) {
+        return shortInterestQuotes;
+      } else {
+        shortInterestQuotes.ok.result.forEach(detail => this.store.setTickerDetails(detail));
+        this.dispatch({
+          detail: shortInterestQuotes.ok.result,
+          type: 'quote:ticker_details_quotes',
+        });
+        return shortInterestQuotes;
+      }
+    }
   };
 
   /**
@@ -318,6 +349,11 @@ export class QuotesManager extends ExtendedSubscribable<QuotesManagerEvent, Watc
       this.feedRestful.addSymbolSubscription(symbol);
       return undefined;
     }
+  }
+
+  public getQuoteFromSubscriptionStore(symbol: string): DelayedQuote | undefined {
+    const quote = this.feedRestful.getQuote(symbol);
+    return quote;
   }
 
   public addSymbolsSubscription(symbols: string[]): void {

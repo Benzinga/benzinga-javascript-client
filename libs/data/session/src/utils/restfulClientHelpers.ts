@@ -19,6 +19,7 @@ export interface IncludeHeader {
   'x-device-key'?: boolean;
   'x-session-key'?: boolean;
   'x-csrf-token'?: boolean;
+  referer?: string;
 }
 
 interface QueryParamsObject {
@@ -162,6 +163,9 @@ export const initFetch = async (init: DataRequestInit): SafePromise<DataRequestI
   }
   if (init.includeHeader?.['x-csrf-token'] && csrfToken) {
     init.headers.set('X-CSRFToken', csrfToken);
+  }
+  if (init.includeHeader?.['referer']) {
+    init.headers.set('Referer', init.includeHeader?.['referer']);
   }
 
   return { ok: init };

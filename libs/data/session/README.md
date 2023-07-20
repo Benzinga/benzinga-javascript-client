@@ -4,8 +4,7 @@ The Session package is the go to place to get data from benzinga.
 
 ## Usage
 
-
-TO use this package you must first create a session using `createSession`
+To get started you mast first create a session using the `createSession` function
 
 ```ts
 import { createSession } from '@benzinga/session'
@@ -17,10 +16,10 @@ you can then simply call get the instance by simply calling the function
 const session = createSession();
 ```
 
-Once you have a session you cant really do much. this is because benzinga uses a modular design.
-We call these modules managers. Each manager is responsible for managing a specific resource.
-To get started you will first need to use the `authentication` manager to simply login. the `authentication` manager
-is the only manager that is included in the session package. To access it simply call the `getManager` function with the `AuthenticationManager` class as a an argument. This will return a authentication manager.
+once you have a session you cant really do much. this is because benzinga uses a modular design.
+we call these modules managers. Each manager is responsible for managing a specific resource.
+to get started you will fist need to use the `authentication` manager to simply login. the `authentication` manager
+is the only manager that is included in the session package. to access it simply call the `getManager` function with the `AuthenticationManager` class as a an argument. this will return a authentication manager instance. the instance will be held by the session and you can ask for it any time by simply calling `getManager`
 
 ```ts
 import { AuthenticationManager, createSession } from '@benzinga/session';
@@ -39,7 +38,7 @@ if (login.err) {
 }
 ```
 
-As you can see from the example above the login function returns a `SafePromise`. A `SafePromise` simply handles catching the thrown error and returns an object that ether has a `err` or a `result`.
+As you can see from the example above the login function returns a `SafePromise`. A `SafePromise` simply handles catching the thrown error and returns an object that ether has a `err` or a `ok`.
 
 Some APIs work without logging in however most APIs require a login.
 
@@ -50,10 +49,10 @@ Benzinga also uses the concept of a feeds. a feed is a subscription based connec
 Here is an example.
 
 ```ts
-import { SignalsManager } from '@benzinga/signals-manager';
+import { SignalsCalendarManager } from '@benzinga/signals-manager';
 
-const signalsManager = session.getManager(SignalsManager);
-const feed = signalsManager.createFeed();
+const SignalsCalendarManager = session.getManager(SignalsCalendarManager);
+const feed = SignalsCalendarManager.createFeed();
 feed.setFilters([], ['NEW_HIGH', 'NEW_LOW']);
 const subscription = feed.subscribe(event => {
   switch (event.type) {
@@ -69,6 +68,7 @@ setTimeout(() => subscription.unsubscribe(), 60000);
 in this example we simply subscribe to signals coming from the signals feed for 1 min and then simply unsubscribe.
 
 each manger has a `manager.ts` file this file list all the things you can do with this manager.
+
 
 ## Adding a New Manager
 
@@ -101,7 +101,7 @@ Core class of Benzinga SDK
 
 To access any of SDK managers, you must create a session first
 
-### Methods: 
+### Methods:
 ```ts
 getEnvironment <M extends Environment, R extends ReturnType<M["getEnvironment"]>>(managerEnv: M): R
 ```
@@ -141,7 +141,7 @@ you authenticate using this manager
 
 Use your Benzinga API key as 'apiKey' environment variable for this manager to use API key authentication - in this case no further invocations of that managers are needed
 
-### Methods: 
+### Methods:
 ```ts
 login (username: string, password: string, sessionOptions?: SessionOptions): SafePromise<Authentication>
 ```

@@ -1,0 +1,50 @@
+{
+  "name": "data-manager-wiims",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/data/manager/wiims/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/data/manager/wiims",
+        "main": "libs/data/manager/wiims/src/index.ts",
+        "tsConfig": "libs/data/manager/wiims/tsconfig.lib.json",
+        "assets": [
+          "libs/data/manager/wiims/*.md",
+          "libs/data/manager/wiims/**/*.ts",
+          "coverage/libs/data/manager/wiims"
+        ],
+        "options": {
+          "jestConfig": "libs/data/manager/wiims/jest.config.js",
+          "passWithNoTests": true
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/data/manager/wiims/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/data/manager/wiims"
+      ],
+      "options": {
+        "jestConfig": "libs/data/manager/wiims/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

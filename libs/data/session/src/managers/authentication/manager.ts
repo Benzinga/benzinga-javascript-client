@@ -68,6 +68,7 @@ declare global {
  * @extends {Subscribable<AuthenticationManagerEvent>}
  */
 export class AuthenticationManager extends Subscribable<AuthenticationManagerEvent> {
+  private static oneTapInitialized = false;
   private request: AuthenticationRequest;
   private store: AuthenticationStore;
   private googleClientId: string;
@@ -83,6 +84,7 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
     this.store = new AuthenticationStore();
     this.apiKey = session.getEnvironment(AuthenticationEnvironment).apiKey || undefined;
     const token = this.getBenzingaToken();
+
     setTimeout(() => {
       if (token || token === '') {
         this.getSessionNoLimit(true, token);
@@ -127,17 +129,21 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
     }
     const showGoogleOneTapRecu = async (retried = 0): Promise<void> => {
       const retryCount = retried + 1;
+
       if (window.google) {
-        window.google.accounts.id.initialize({
-          callback: this.oneTapCallback,
-          client_id: this.googleClientId,
-        });
-        window.google.accounts.id.prompt((promptResponse: GooglePromptResponse) => {
-          this.dispatch({
-            display: promptResponse.g === 'display' && promptResponse.h,
-            type: 'authentication:google_one_tap_prompt',
+        if (!AuthenticationManager.oneTapInitialized) {
+          AuthenticationManager.oneTapInitialized = true;
+          window.google.accounts.id.initialize({
+            callback: this.oneTapCallback,
+            client_id: this.googleClientId,
           });
-        });
+          window.google.accounts.id.prompt((promptResponse: GooglePromptResponse) => {
+            this.dispatch({
+              display: promptResponse.g === 'display' && promptResponse.h,
+              type: 'authentication:google_one_tap_prompt',
+            });
+          });
+        }
       } else {
         if (retryCount < 60) {
           //after 30 seconds stop trying
@@ -176,9 +182,10 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
     username: string,
     password: string,
     sessionOptions?: SessionOptions,
+    captcha?: string,
   ): SafePromise<Authentication> => {
     if (!this.isLoggedIn()) {
-      const auth = await this.request.login(username, password, sessionOptions, this.store.getFingerprint());
+      const auth = await this.request.login(username, password, sessionOptions, this.store.getFingerprint(), captcha);
       if (auth.ok) {
         this.store.updateAuthenticationSession(auth.ok);
       }
@@ -200,6 +207,10 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
       const auth = await this.request.logout();
       // This is a hack for the CI environment
       // this.removeBenzingaToken();
+      if (this.refreshTimeout) {
+        clearTimeout(this.refreshTimeout);
+      }
+      this.refreshTimeout = undefined;
       await this.getSession(true);
       this.didUnAuthorize();
       return auth;
@@ -214,8 +225,15 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
    * @param {SessionOptions} [sessionOptions]
    * @memberof AuthenticationManager
    */
-  public register = async (user: RegisterUser, sessionOptions?: SessionOptions): SafePromise<Authentication> => {
-    const auth = await this.request.register(user, sessionOptions, this.store.getFingerprint());
+  public register = async (
+    user: RegisterUser,
+    register_type?: string,
+    sessionOptions?: SessionOptions,
+  ): SafePromise<Authentication> => {
+    const auth = await this.request.register(user, sessionOptions, {
+      fingerprint: this.store.getFingerprint(),
+      register_type: register_type,
+    });
     if (auth.ok) {
       this.store.updateAuthenticationSession(auth.ok);
     }
@@ -405,20 +423,43 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
   };
 
   private refresh = async () => {
-    const auth = await this.request.refresh();
-    if (auth.ok && this.store.getAuthentication()) {
-      this.store.refreshAuthenticationSession(auth.ok);
-
+    const refreshTimer = (time: number) => {
       if (this.refreshTimeout) {
         clearTimeout(this.refreshTimeout);
       }
-      this.refreshTimeout = setTimeout(() => this.refresh(), Math.max((auth.ok.exp - Date.now() / 1000) * (2 / 3), 0));
+      this.refreshTimeout = setTimeout(this.refresh, time);
+    };
+
+    const auth = await this.request.refresh();
+    if (auth.err) {
+      if ([401, 403].includes((auth.err?.data as any).statusCode ?? 0)) {
+        this.refreshTimeout = undefined;
+        if (this.isLoggedIn()) {
+          this.logout();
+        }
+      } else {
+        refreshTimer(120000);
+      }
+    } else if (auth.ok && this.store.getAuthentication()) {
+      if (this.store.refreshAuthenticationSession(auth.ok)) {
+        this.refreshTimeout = undefined;
+        this.getSession(true);
+      } else {
+        // refresh returns secs and Date.now returns millSecs we are simply refreshing 30 secs before the timeout.
+        refreshTimer(Math.max((auth.ok.exp - Date.now() / 1000 - 30) * 1000, 120000));
+      }
+    } else {
+      if (this.isLoggedIn()) {
+        refreshTimer(120000);
+      } else {
+        this.refreshTimeout = undefined;
+      }
     }
     return auth;
   };
 
   private oneTapCallback = async (googleAuth: GoogleAuthenticationResponse): SafePromise<Authentication> => {
-    return this.setAuthentication(false, () =>
+    return this.setAuthentication(true, () =>
       this.request.googleOneTapLogin(googleAuth.credential, '/api/v1/account/session/'),
     );
   };
@@ -431,8 +472,10 @@ export class AuthenticationManager extends Subscribable<AuthenticationManagerEve
       const auth = await callback();
       if (auth.ok) {
         this.store.updateAuthenticationSession(auth.ok);
+        if (this.refreshTimeout === undefined && this.isLoggedIn()) {
+          this.refresh();
+        }
       }
-      this.refresh();
       return auth;
     }
     return { err: new SafeError('already logged in', 'authentication_manager') };

@@ -145,13 +145,13 @@ export class QuoteFeed extends ExtendedSubscribable<QuoteFeedEvent, QuoteFunctio
     const currentPriceFormatted = quote.lastTradePrice ? formatPrice(quote.lastTradePrice) : '';
 
     return {
-      ...quote,
       change,
+      percentChange,
+      ...quote,
       currentPrice,
       currentPriceFormatted,
       currentVolume,
       lastTradeTime,
-      percentChange,
       postToPreChange,
       postToPrePercentChange,
       regularHoursChange,

@@ -1,4 +1,5 @@
-import { SessionEnvironment, Session } from '.';
+import { SessionEnvironment } from './env';
+import { Session } from './session';
 
 let globalSession: Session | null = null;
 

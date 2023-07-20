@@ -4,21 +4,17 @@ type StockSymbol = string;
 
 type Operators = 'gt' | 'lt' | 'gte' | 'lte' | 'eq' | 'ieq';
 type Scaler = number | string | boolean;
-type ArrayValue =
-  | StockSymbol[]
-  | Scaler[]
-  | { watchlist_id: string }
-  | { screener_id: string }
-  | { screener_query: string };
+type ArrayValue<T> = StockSymbol[] | Scaler[] | T;
 
-type ArrayToken<FieldType> = [FieldType, 'all' | 'any' | 'in', ArrayValue];
+type ArrayToken<FieldType, ArrayValueTypes> = [FieldType, 'all' | 'any' | 'in', ArrayValue<ArrayValueTypes>];
+
 type ExistsToken<FieldType> = [FieldType, 'exists'];
 type IndexedSearchToken<FieldType> = [FieldType, 'match' | 'phrase' | 'search', string];
 type RangeToken<FieldType> = [FieldType, 'range', [number, number]];
 type SingletonToken<FieldType> = [FieldType, Operators, Scaler];
 
-export type Token<FieldType> =
-  | ArrayToken<FieldType>
+export type Token<FieldType, ArrayValueTypes = unknown> =
+  | ArrayToken<FieldType, ArrayValueTypes>
   | ExistsToken<FieldType>
   | RangeToken<FieldType>
   | IndexedSearchToken<FieldType>
@@ -26,19 +22,13 @@ export type Token<FieldType> =
 
 interface LogicalToken<FieldType> {
   lhs: ExpressionObject<FieldType>;
-  operator: 'or' | 'and' | 'gte' | 'lte';
+  operator: 'or' | 'and';
   rhs: ExpressionObject<FieldType>;
 }
 
 interface GroupToken<FieldType> {
   group: ExpressionObject<FieldType>;
   operator: 'not' | 'group';
-}
-
-interface WidgetGroupToken {
-  groupId: string;
-  operator: 'widgetGroup';
-  symbol: StockSymbol;
 }
 
 interface ExpressionToken<FieldType> {
@@ -52,7 +42,6 @@ interface EmptyToken {
 
 export type ExpressionObject<FieldType> =
   | EmptyToken
-  | WidgetGroupToken
   | ExpressionToken<FieldType>
   | LogicalToken<FieldType>
   | GroupToken<FieldType>;
@@ -175,40 +164,70 @@ export class Expression<FieldType> {
 
   public static generateBZQL = <FieldType>(
     token: ExpressionObject<FieldType>,
+    expressionConvert?: (token: Token<FieldType>) => Token<FieldType>,
   ): BZQLExpressionObject<FieldType> | null => {
     const isEmptyGroup = <FieldType>(token: ExpressionObject<FieldType>): boolean =>
       token.operator === 'none' ||
       ((token.operator === 'group' || token.operator === 'not') && isEmptyGroup(token.group)) ||
-      ((token.operator === 'or' || token.operator === 'and' || token.operator === 'gte' || token.operator === 'lte') &&
-        isEmptyGroup(token.lhs) &&
-        isEmptyGroup(token.rhs));
+      ((token.operator === 'or' || token.operator === 'and') && isEmptyGroup(token.lhs) && isEmptyGroup(token.rhs));
+
+    const groupBZQLBasedOnParent = <FieldType>(
+      token: ExpressionObject<FieldType>,
+      bz: BZQLExpression<FieldType> | BZQLExpression<FieldType>[],
+      parentToken?: ExpressionObject<FieldType>,
+    ): BZQLExpression<FieldType> | BZQLExpression<FieldType>[] => {
+      if (!parentToken) return bz;
+      if (token.operator !== 'or' && token.operator !== 'and') return bz;
+      if (token.operator === parentToken.operator) return bz;
+
+      if (Array.isArray(bz)) {
+        return { _: bz };
+      } else {
+        return { _: [bz] };
+      }
+    };
 
     // recursion function
-    const generateBZQLRecursion = <FieldType>(
+    const generateBZQLRecursion = (
       token: ExpressionObject<FieldType>,
+      parentToken?: ExpressionObject<FieldType>,
     ): BZQLExpression<FieldType> | BZQLExpression<FieldType>[] => {
       switch (token.operator) {
         case 'and':
-        case 'or':
-        case 'gte':
-        case 'lte': {
+        case 'or': {
           if (isEmptyGroup(token.lhs)) {
-            return generateBZQLRecursion(token.rhs);
+            return generateBZQLRecursion(token.rhs, parentToken);
           } else if (isEmptyGroup(token.rhs)) {
-            return generateBZQLRecursion(token.lhs);
+            return generateBZQLRecursion(token.lhs, parentToken);
           } else {
-            const lhs = generateBZQLRecursion(token.lhs);
-            const rhs = generateBZQLRecursion(token.rhs);
+            const lhs = generateBZQLRecursion(token.lhs, token);
+            const rhs = generateBZQLRecursion(token.rhs, token);
             if (Array.isArray(lhs) && Array.isArray(rhs)) {
               const [first, ...rest] = rhs;
-              return [...lhs, { [token.operator]: first } as unknown as BZQLExpression<FieldType>, ...rest];
+              return groupBZQLBasedOnParent(
+                token,
+                [...lhs, { [token.operator]: first } as unknown as BZQLExpression<FieldType>, ...rest],
+                parentToken,
+              );
             } else if (Array.isArray(lhs)) {
-              return [...lhs, { [token.operator]: rhs } as unknown as BZQLExpression<FieldType>];
+              return groupBZQLBasedOnParent(
+                token,
+                [...lhs, { [token.operator]: rhs } as unknown as BZQLExpression<FieldType>],
+                parentToken,
+              );
             } else if (Array.isArray(rhs)) {
               const [first, ...rest] = rhs;
-              return [lhs, { [token.operator]: first } as unknown as BZQLExpression<FieldType>, ...rest];
+              return groupBZQLBasedOnParent(
+                token,
+                [lhs, { [token.operator]: first } as unknown as BZQLExpression<FieldType>, ...rest],
+                parentToken,
+              );
             } else {
-              return [lhs, { [token.operator]: rhs } as unknown as BZQLExpression<FieldType>];
+              return groupBZQLBasedOnParent(
+                token,
+                [lhs, { [token.operator]: rhs } as unknown as BZQLExpression<FieldType>],
+                parentToken,
+              );
             }
           }
         }
@@ -221,17 +240,15 @@ export class Expression<FieldType> {
           }
         }
         case 'group': {
-          const bz = generateBZQLRecursion(token.group);
-          if (Array.isArray(bz)) {
-            return { _: bz };
-          } else {
-            return { _: [bz] };
-          }
+          const bz = generateBZQLRecursion(token.group, parentToken);
+          return bz;
         }
         case 'expression':
-          return { $: token.expression };
-        case 'widgetGroup':
-          return { $: ['Tickers.name', 'any', [token.symbol]] as any };
+          if (expressionConvert) {
+            return { $: expressionConvert(token.expression) };
+          } else {
+            return { $: token.expression };
+          }
         case 'none':
           return { _: [] };
       }
@@ -299,10 +316,12 @@ export class Expression<FieldType> {
     return this.expression.operator !== 'none';
   };
 
-  public toBZQL = (): BZQLExpressionObject<FieldType> | null => {
+  public toBZQL = (
+    expressionConvert?: (token: Token<FieldType>) => Token<FieldType>,
+  ): BZQLExpressionObject<FieldType> | null => {
     const expression = this.getExpressionType();
     if (expression) {
-      return Expression.generateBZQL(expression);
+      return Expression.generateBZQL(expression, expressionConvert);
     } else {
       return null;
     }

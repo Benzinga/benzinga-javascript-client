@@ -1,0 +1,44 @@
+{
+  "name": "data-manager-calendars-sec",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/data/manager/calendars/sec/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/data/manager/calendars/sec",
+        "main": "libs/data/manager/calendars/sec/src/index.ts",
+        "tsConfig": "libs/data/manager/calendars/sec/tsconfig.lib.json",
+        "assets": [
+          "libs/data/manager/calendars/sec/*.md"
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/data/manager/calendars/sec/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/data/manager/calendars/sec"
+      ],
+      "options": {
+        "jestConfig": "libs/data/manager/calendars/sec/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

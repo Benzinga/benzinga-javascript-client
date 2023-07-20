@@ -85,11 +85,14 @@ export class AuthenticationRequest extends ExtendedListenableSubscribable<
     password: string,
     sessionOptions?: SessionOptions,
     fingerprint?: unknown,
+    captcha?: string,
   ): SafePromise<Authentication> => {
     this.dispatch({
       type: 'authentication:requesting_logged_in',
     });
-    const newLogin = await ingestAuthentication(this.restful.login(email, password, sessionOptions, fingerprint));
+    const newLogin = await ingestAuthentication(
+      this.restful.login(email, password, sessionOptions, fingerprint, captcha),
+    );
     if (newLogin.err) {
       const jsonRes = await (newLogin.err.data as Response).json();
       const json = jsonRes['detail'];
@@ -152,12 +155,20 @@ export class AuthenticationRequest extends ExtendedListenableSubscribable<
   public register = async (
     user: RegisterUser,
     sessionOptions?: SessionOptions,
-    fingerprint?: unknown,
+    options?: { fingerprint: unknown; register_type?: string },
   ): SafePromise<Authentication> => {
     this.dispatch({
       type: 'authentication:requesting_registered',
     });
-    const auth = await ingestAuthentication(this.restful.register(egressRegister(user, fingerprint), sessionOptions));
+    const auth = await ingestAuthentication(
+      this.restful.register(
+        egressRegister(user, {
+          fingerprint: options?.fingerprint,
+          register_type: options?.register_type ?? 'unknown',
+        }),
+        sessionOptions,
+      ),
+    );
     if (auth.err) {
       const jsonRes = await (auth.err.data as Response).json();
       const json = jsonRes[Object.keys(jsonRes)[0]];

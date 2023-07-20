@@ -52,6 +52,7 @@ export interface IngressUser {
   tradeit_token: string;
   trial_end_date: string | null;
   uuid: string;
+  hubspot_id: string;
 }
 
 export interface IngressSubscription {
@@ -195,6 +196,7 @@ export const ingestAuthentication = async (
       email: authentication.user.email,
       emailVerified: authentication.user.email_verified,
       firstName: authentication.user.first_name,
+      hubspot_id: authentication.user.hubspot_id,
       humanVerified: authentication.user.human_verified,
       id: authentication.user.id,
       lastName: authentication.user.last_name,

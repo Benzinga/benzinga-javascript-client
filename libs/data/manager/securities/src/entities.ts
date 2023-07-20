@@ -1154,6 +1154,13 @@ export interface IncomeStatement {
    */
   otherIncomeExpense: number;
   /**
+   * Other Operating Expenses
+   *
+   * @type {number}
+   * @memberof IncomeStatement
+   */
+  otherOperatingExpenses: number;
+  /**
    * Period Ending Date
    *
    * @type {number}
@@ -2233,7 +2240,8 @@ export interface Financials {
   valuationRatios: ValuationRatio[];
 }
 
-export type Period = string;
+export type FinancialsPeriod = '3M' | '12M';
+export type AsOf = `${number}-${number}-${number}`;
 
 /**
  * Financials request query
@@ -2242,6 +2250,14 @@ export type Period = string;
  * @interface FinancialsQuery
  */
 export interface FinancialsQuery {
+  /**
+   * Period of the query
+   *
+   * @type {AsOf}
+   * @memberof FinancialsQuery
+   */
+  asOf?: AsOf;
+
   /**
    * CSV symbols list for filtering
    *
@@ -2253,8 +2269,120 @@ export interface FinancialsQuery {
   /**
    * Period of the query
    *
-   * @type {Period}
+   * @type {FinancialsPeriod}
    * @memberof FinancialsQuery
    */
-  period: Period;
+  period: FinancialsPeriod;
+}
+
+export interface Ownership {
+  daysToCoverShort: number;
+  id: InstrumentIdentifier;
+  insiderPercentOwned: number;
+  insiderSharesBought: number;
+  insiderSharesOwned: number;
+  insiderSharesSold: number;
+  institutionHolderNumber: number;
+  institutionPercentHeld: number;
+  institutionSharesBought: number;
+  institutionSharesHeld: number;
+  institutionSharesSold: number;
+  numberOfInsiderBuys: number;
+  numberOfInsiderSellers: number;
+  shareClassLevelSharesOutstandingBalanceSheet: number;
+  shareClassLevelSharesOutstandingInterim: number;
+  shareFloat: number;
+  sharesOutstanding: number;
+  sharesOutstandingWithBalanceSheetEndingDate: number;
+  shortInterest: number;
+  shortInterestsPercentageChange: number;
+  shortPercentageOfFloat: number;
+  shortPercentageOfSharesOutstanding: number;
+}
+
+export interface Peer {
+  dividend?: number;
+  dividendYield?: number;
+  exchange: string;
+  forwardPERatio: number;
+  marketCap: number;
+  name: string;
+  pe: number;
+  revenueTTM: number;
+  shareFloat: number;
+  sharesOutstanding: any; // TODO
+  symbol: StockSymbol;
+}
+
+/**
+ * Request params for get logos
+ *
+ * @export
+ * @interface GetQuotesLogoParams
+ */
+export interface GetQuotesLogoParams {
+  /**
+   * A comma (,) separated list of returned fields
+   *
+   * @exampleValue mark_light,background_light
+   *
+   * @type {string}
+   * @memberof GetQuotesLogoParams
+   */
+  fields: string;
+
+  /**
+   * Specified as the WIDTHxHEIGHT to scale the image down in pixels.
+   * Images will only be scaled down, never up, and fit within the bounds set.
+   * In CSS terms, the object-fit property is set to `contain`
+   * Scale will be applied to: logo_light, logo_dark, mark_light, mark_dark, mark_composite_light, mark_composite_dark
+   *
+   * @exampleValue 300x600
+   *
+   * @type {string}
+   * @memberof GetQuotesLogoParams
+   */
+  scale: string;
+
+  /**
+   * The type of identifier being searched.
+   * Supported types are currently a security symbol and CIK.
+   *
+   * @type {string}
+   * @memberof GetQuotesLogoParams
+   */
+  search_keys_type: string;
+}
+
+export interface Logos {
+  logos: Logo[];
+}
+
+/**
+ * @export
+ * @interface Logo
+ */
+export interface Logo {
+  id: string;
+  search_key: string;
+  files: LogoFile;
+  created_at: Date;
+  updated_at: Date;
+}
+
+/**
+ * @export
+ * @interface LogoFile
+ */
+export interface LogoFile {
+  logo_dark: string;
+  logo_light: string;
+  logo_vector_dark: string;
+  logo_vector_light: string;
+  mark_composite_dark: string;
+  mark_composite_light: string;
+  mark_dark: string;
+  mark_light: string;
+  mark_vector_dark: string;
+  mark_vector_light: string;
 }

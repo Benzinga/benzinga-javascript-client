@@ -1,0 +1,44 @@
+{
+  "name": "data-manager-calendars-commons",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/data/manager/calendars/commons/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/data/manager/calendars/commons",
+        "main": "libs/data/manager/calendars/commons/src/index.ts",
+        "tsConfig": "libs/data/manager/calendars/commons/tsconfig.lib.json",
+        "assets": [
+          "libs/data/manager/calendars/commons/*.md"
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/data/manager/calendars/commons/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/data/manager/calendars/commons"
+      ],
+      "options": {
+        "jestConfig": "libs/data/manager/calendars/commons/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

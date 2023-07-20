@@ -39,7 +39,7 @@ Main class for accessing WIIMs API
 
 To use, obtain an instance by calling session.getManager(WiimsManager)
 
-### Methods: 
+### Methods:
 ```ts
 getWiims (params: WiimsRequestParams): SafePromise<Wiim[]>
 ```

@@ -8,7 +8,7 @@ Obtain manager instance via session:
 
 ```ts
 import { createSession } from '@benzinga/session';
-import { ConferenceCallsManager } from '@benzinga/securities-manager';
+import { ConferenceCallsCalendarManager } from '@benzinga/securities-manager';
 
 const session = createSession({
   'benzinga-authentication': {
@@ -51,7 +51,7 @@ Static-like securities data manager
 
 To use, obtain an instance by calling session.getManager(SecuritiesManager)
 
-### Methods: 
+### Methods:
 ```ts
 compareFinancials (lhs: Financials[], rhs: Financials[]): boolean
 ```
@@ -78,9 +78,9 @@ Caches value when possible
 ## InstrumentIdentifier
 Instrument identifier
 
-* `asOf` (string) 
+* `asOf` (string)
 
-* `shareClassId` (string) 
+* `shareClassId` (string)
 
 ## AlphaBeta
 Alpha beta
@@ -94,15 +94,15 @@ Alpha beta
 ## FinancialId
 Financial ID
 
-* `aorRestate` (string) 
+* `aorRestate` (string)
 
-* `asOf` (string) 
+* `asOf` (string)
 
-* `companyId` (string) 
+* `companyId` (string)
 
-* `period` (string) 
+* `period` (string)
 
-* `reportType` (string) 
+* `reportType` (string)
 
 ## BalanceSheet
 Financials balance sheet
@@ -457,15 +457,15 @@ Financial report
 ## EarningRatio
 Earning ratio
 
-* `dilutedContEpsGrowth` (number) 
+* `dilutedContEpsGrowth` (number)
 
-* `dilutedEpsGrowth` (number) 
+* `dilutedEpsGrowth` (number)
 
-* `dpsGrowth` (number) 
+* `dpsGrowth` (number)
 
-* `equityPerShareGrowth` (number) 
+* `equityPerShareGrowth` (number)
 
-* `fiscalYearEnd` (number) 
+* `fiscalYearEnd` (number)
 
 ## EarningReport
 Earning report
@@ -557,53 +557,53 @@ Company profile
 ## AssetClassification
 Asset classification
 
-* `msGroupCode` (number) 
+* `msGroupCode` (number)
 
-* `msGroupName` (string) 
+* `msGroupName` (string)
 
-* `msIndustryCode` (number) 
+* `msIndustryCode` (number)
 
-* `msIndustryName` (string) 
+* `msIndustryName` (string)
 
-* `msSectorCode` (number) 
+* `msSectorCode` (number)
 
-* `msSectorName` (string) 
+* `msSectorName` (string)
 
-* `msSuperSectorCode` (number) 
+* `msSuperSectorCode` (number)
 
-* `msSuperSectorName` (string) 
+* `msSuperSectorName` (string)
 
-* `naics` (string) 
+* `naics` (string)
 
-* `naicsName` (string) 
+* `naicsName` (string)
 
-* `sic` (string) 
+* `sic` (string)
 
-* `sicName` (string) 
+* `sicName` (string)
 
 ## ShareClass
 Share class
 
-* `currency` (string) 
+* `currency` (string)
 
-* `ipoDate` (number) 
+* `ipoDate` (number)
 
-* `isDepositaryReceipt` (boolean) 
+* `isDepositaryReceipt` (boolean)
 
-* `isPrimary` (true) 
+* `isPrimary` (true)
 
-* `securityType` (string) 
+* `securityType` (string)
 
-* `shareClassId` (string) 
+* `shareClassId` (string)
 
 ## ShareClassProfile
 Share class profile
 
-* `asOf` (string) 
+* `asOf` (string)
 
-* `enterpriseValue` (number) 
+* `enterpriseValue` (number)
 
-* `marketCap` (number) 
+* `marketCap` (number)
 
 ## OperationRatio
 Operation ratio
@@ -689,119 +689,119 @@ Operation ratio
 ## ValuationRatio
 Valuation ratio
 
-* `bookValuePerShare` (number) 
+* `bookValuePerShare` (number)
 
-* `bookValueYield` (number) 
+* `bookValueYield` (number)
 
-* `buyBackYield` (number) 
+* `buyBackYield` (number)
 
-* `cashReturn` (number) 
+* `cashReturn` (number)
 
-* `cfYield` (number) 
+* `cfYield` (number)
 
-* `cfoPerShare` (number) 
+* `cfoPerShare` (number)
 
-* `earningYield` (number) 
+* `earningYield` (number)
 
-* `evToEbitda` (number) 
+* `evToEbitda` (number)
 
-* `fcfPerShare` (number) 
+* `fcfPerShare` (number)
 
-* `fcfRatio` (number) 
+* `fcfRatio` (number)
 
-* `fcfYield` (number) 
+* `fcfYield` (number)
 
-* `forwardDividend` (number) 
+* `forwardDividend` (number)
 
-* `forwardDividendYield` (number) 
+* `forwardDividendYield` (number)
 
-* `forwardEarningYield` (number) 
+* `forwardEarningYield` (number)
 
-* `forwardPeRatio` (number) 
+* `forwardPeRatio` (number)
 
-* `id` ([InstrumentIdentifier](#instrumentidentifier)) 
+* `id` ([InstrumentIdentifier](#instrumentidentifier))
 
-* `normalizedPeRatio` (number) 
+* `normalizedPeRatio` (number)
 
-* `payoutRatio` (number) 
+* `payoutRatio` (number)
 
-* `pbRatio` (number) 
+* `pbRatio` (number)
 
-* `pcfRatio` (number) 
+* `pcfRatio` (number)
 
-* `peRatio` (number) 
+* `peRatio` (number)
 
-* `pegPayback` (number) 
+* `pegPayback` (number)
 
-* `pegRatio` (number) 
+* `pegRatio` (number)
 
-* `priceChange1M` (number) 
+* `priceChange1M` (number)
 
-* `pricetoEbitda` (number) 
+* `pricetoEbitda` (number)
 
-* `psRatio` (number) 
+* `psRatio` (number)
 
-* `ratioPe5YearAverage` (number) 
+* `ratioPe5YearAverage` (number)
 
-* `salesPerShare` (number) 
+* `salesPerShare` (number)
 
-* `salesYield` (number) 
+* `salesYield` (number)
 
-* `sustainableGrowthRate` (number) 
+* `sustainableGrowthRate` (number)
 
-* `tangibleBookValuePerShare` (number) 
+* `tangibleBookValuePerShare` (number)
 
-* `tangibleBvPerShare3YrAvg` (number) 
+* `tangibleBvPerShare3YrAvg` (number)
 
-* `tangibleBvPerShare5YrAvg` (number) 
+* `tangibleBvPerShare5YrAvg` (number)
 
-* `totalYield` (number) 
+* `totalYield` (number)
 
-* `trailingDividendYield` (number) 
+* `trailingDividendYield` (number)
 
-* `workingCapitalPerShare` (number) 
+* `workingCapitalPerShare` (number)
 
-* `workingCapitalPerShare3YrAvg` (number) 
+* `workingCapitalPerShare3YrAvg` (number)
 
-* `workingCapitalPerShare5YrAvg` (number) 
+* `workingCapitalPerShare5YrAvg` (number)
 
 ## Financials
 Complete financials data
 
-* `alphaBeta` ([AlphaBeta](#alphabeta)[]) 
+* `alphaBeta` ([AlphaBeta](#alphabeta)[])
 
-* `assetClassification` ([AssetClassification](#assetclassification)) 
+* `assetClassification` ([AssetClassification](#assetclassification))
 
-* `company` ([Company](#company)) 
+* `company` ([Company](#company))
 
-* `companyProfile` ([CompanyProfile](#companyprofile)) 
+* `companyProfile` ([CompanyProfile](#companyprofile))
 
-* `earningRatios` ([EarningRatio](#earningratio)[]) 
+* `earningRatios` ([EarningRatio](#earningratio)[])
 
-* `earningReports` ([EarningReport](#earningreport)[]) 
+* `earningReports` ([EarningReport](#earningreport)[])
 
-* `error` (string) 
+* `error` (string)
 
-* `financials` ([Financial](#financial)[]) 
+* `financials` ([Financial](#financial)[])
 
 * `id` (string) - ID of the financials object
 
-* `idType` (string) 
+* `idType` (string)
 
-* `operationRatios` ([OperationRatio](#operationratio)[]) 
+* `operationRatios` ([OperationRatio](#operationratio)[])
 
-* `shareClass` ([ShareClass](#shareclass)) 
+* `shareClass` ([ShareClass](#shareclass))
 
-* `shareClassProfile` ([ShareClassProfile](#shareclassprofile)) 
+* `shareClassProfile` ([ShareClassProfile](#shareclassprofile))
 
-* `symbol` (StockSymbol) 
+* `symbol` (StockSymbol)
 
-* `valuationRatios` ([ValuationRatio](#valuationratio)[]) 
+* `valuationRatios` ([ValuationRatio](#valuationratio)[])
 
 ## FinancialsQuery
 Financials request query
 
-* `symbols` (StockSymbol) - CSV symbols list for filtering
+* `symbols` (string) - CSV symbols list for filtering
 
 * `period` (string) - Period of the query
 

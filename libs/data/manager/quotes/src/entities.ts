@@ -267,336 +267,336 @@ export interface InitialQuote {
 
 /**
  * @export
- * @interface DetailsQuote
+ * @interface DetailedQuote
  */
-export interface DetailsQuote {
+export interface DetailedQuote {
   /**
    * Ask Price
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   askPrice: number;
   /**
    * Ask Size
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   askSize: number;
   /**
    * Ask Time
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   askTime: number;
   /**
    * Average Volume
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   averageVolume: number;
   /**
    * Bid Price
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   bidPrice: number;
   /**
    * Bid Size
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   bidSize: number;
   /**
    * Bid Time
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   bidTime: number;
   /**
    * Benzinga Exchange
    *
    * @type {string}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   bzExchange: string;
   /**
    * Change
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   change: number;
   /**
    * Change Percent
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   changePercent: number;
   /**
    * Close?
    *
    * @type {number | null}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   close?: number | null;
   /**
    * Company Standard Name?
    *
    * @type {string}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   companyStandardName?: string;
   /**
    * Currency?
    *
    * @type {string}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   currency?: string;
   /**
    * Description
    *
    * @type {string}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   description: string;
   /**
    * Dividend?
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   dividend?: number;
   /**
    * Dividend Yield?
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   dividendYield?: number;
   /**
    * Dx Symbol
    *
    * @type {StockSymbol}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   dxSymbol: StockSymbol;
   /**
    * Eth Price
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   ethPrice: number;
   /**
    * Eth Time
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   ethTime: number;
   /**
    * Eth Volume
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   ethVolume: number;
   /**
    * Exchange
    *
    * @type {string}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   exchange: string;
   /**
    * Fifty Day Average Price
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   fiftyDayAveragePrice: number;
   /**
    * Fifty Two Week High
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   fiftyTwoWeekHigh: number;
   /**
    * Fifty Two Week Low
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   fiftyTwoWeekLow: number;
   /**
    * Forward P E?
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   forwardPE?: number;
   /**
    * High
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   high: number;
   /**
    * Industry
    *
    * @type {string}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   industry: string;
   /**
    * Iso Exchange
    *
    * @type {string}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   isoExchange: string;
   /**
    * Last Trade Price
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   lastTradePrice: number;
   /**
    * Last Trade Time
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   lastTradeTime: number;
   /**
    * Low
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   low: number;
   /**
    * Market Cap
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   marketCap: number;
   /**
    * Name
    *
    * @type {string}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   name: string;
   /**
    * Open
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   open: number;
   /**
    * Otc Market?
    *
    * @type {string}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   otcMarket?: string;
   /**
    * Otc Tier?
    *
    * @type {string}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   otcTier?: string;
   /**
    * Payout Ratio?
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   payoutRatio?: number;
   /**
    * Pe?
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   pe?: number;
   /**
    * Previous Close Date?
    *
    * @type {string}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   previousCloseDate?: string;
   /**
    * Previous Close Price
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   previousClosePrice: number;
   /**
    * Sector
    *
    * @type {string}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   sector: string;
   /**
    * Shares Float?
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   sharesFloat?: number;
   /**
    * Shares Outstanding?
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   sharesOutstanding?: number;
   /**
    * Size
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   size: number;
   /**
    * Symbol
    *
    * @type {StockSymbol}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   symbol: StockSymbol;
   /**
    * Type
    *
    * @type {DetailsQuoteType}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   type: DetailsQuoteType;
   /**
    * Volume
    *
    * @type {number}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
 
   volume: number;
@@ -606,7 +606,7 @@ export interface DetailsQuote {
    *     code: number;
    *     message: string;
    *   }}
-   * @memberof DetailsQuote
+   * @memberof DetailedQuote
    */
   error?: {
     code: number;
@@ -615,7 +615,7 @@ export interface DetailsQuote {
 }
 
 export interface DetailedQuotesBySymbol {
-  [symbol: string]: DetailsQuote;
+  [symbol: string]: DetailedQuote;
 }
 
 export interface Logos {
@@ -635,6 +635,7 @@ export interface Quote extends IncomingQuote {
   currentPriceFormatted?: string | null;
   currentVolume?: number | null;
   lastTradeTime?: string | null;
+  type?: 'STOCK' | 'CRYPTO' | 'ETF';
   postToPreChange?: number | null;
   postToPrePercentChange?: number | null;
   regularHoursChange?: number | null;
@@ -710,7 +711,7 @@ export interface DelayedQuote {
   bzExchange: string;
   otcMarket: string;
   otcTier: string;
-  type: string;
+  type: 'STOCK' | 'CRYPTO' | 'ETF';
   name: string;
   companyStandardName: string;
   description: string;

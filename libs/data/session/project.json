@@ -1,0 +1,52 @@
+{
+  "name": "data-session",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/data/session/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/rollup:rollup",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/data/session",
+        "entryFile": "libs/data/session/src/index.ts",
+        "tsConfig": "libs/data/session/tsconfig.lib.json",
+        "project": "libs/data/session/package.json",
+        "assets": [
+          {
+            "glob": "libs/icons/session/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ],
+        "external": [
+          "react/jsx-runtime"
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/data/session/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/data/session"
+      ],
+      "options": {
+        "jestConfig": "libs/data/session/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

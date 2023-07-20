@@ -50,10 +50,10 @@ Benzinga also uses the concept of a feeds. a feed is a subscription based connec
 Here is an example.
 
 ```ts
-import { SignalsManager } from '@benzinga/signals-manager';
+import { SignalsCalendarManager } from '@benzinga/signals-manager';
 
-const signalsManager = session.getManager(SignalsManager);
-const feed = signalsManager.createFeed();
+const SignalsCalendarManager = session.getManager(SignalsCalendarManager);
+const feed = SignalsCalendarManager.createFeed();
 feed.setFilters([], ['NEW_HIGH', 'NEW_LOW']);
 const subscription = feed.subscribe(event => {
   switch (event.type) {

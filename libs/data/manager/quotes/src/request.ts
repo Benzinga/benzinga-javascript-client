@@ -11,6 +11,7 @@ import {
   DetailedQuotesBySymbol,
   GetQuotesLogoParams,
   DelayedQuote,
+  TickerDetail,
 } from './entities';
 import {
   QuotesScheduleRestful,
@@ -51,11 +52,11 @@ interface LogoQuotesEvent {
 }
 
 interface DelayedQuotesEvent {
-  quotes: DelayedQuote;
+  quotes: Record<StockSymbol, DelayedQuote>;
   type: 'get_delayed_quotes';
 }
 interface TickerDetailsEvent {
-  result: TickerDetailsResponse;
+  result: TickerDetail[];
   type: 'get_ticker_details';
 }
 
@@ -138,7 +139,7 @@ export class WatchlistQuotesRequest extends ExtendedListenableSubscribable<
     }
   };
 
-  public getDelayedQuotes = async (symbols: StockSymbol[]): SafePromise<DelayedQuote> => {
+  public getDelayedQuotes = async (symbols: StockSymbol[]): SafePromise<Record<StockSymbol, DelayedQuote>> => {
     const delayedQuotes = await this.delayedRestful.getDelayedQuotes(symbols.toString());
 
     if (delayedQuotes.err) {
@@ -170,7 +171,7 @@ export class WatchlistQuotesRequest extends ExtendedListenableSubscribable<
       return { err: tickerDetails.err };
     } else {
       this.dispatch({
-        result: tickerDetails.ok,
+        result: tickerDetails.ok.result,
         type: 'get_ticker_details',
       });
 

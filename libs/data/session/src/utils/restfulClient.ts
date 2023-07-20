@@ -40,8 +40,8 @@ export class RestfulClient {
   }
 
   // eslint-disable-next-line @typescript-eslint/ban-types
-  protected URL = (pathname: string, params?: object): URL => {
-    const url = extendPathname(this.hostname, pathname);
+  protected URL = (pathname: string | undefined, params?: object): URL => {
+    const url = pathname !== undefined ? extendPathname(this.hostname, pathname) : new URL(this.hostname);
 
     const actualParams = params || {};
 

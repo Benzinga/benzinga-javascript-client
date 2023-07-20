@@ -44,7 +44,7 @@ Main class for calling Movers API
 
 To use, obtain an instance by calling session.getManager(MoversManager)
 
-### Methods: 
+### Methods:
 ```ts
 getMovers (query: MoversQuery): SafePromise<Movers>
 ```
@@ -69,7 +69,7 @@ Movers entity
 
 * `toDate` (string) - Datetime of the end of the period used to calculate movers.
 
-* `snapTo` (string) 
+* `snapTo` (string)
 
 * `usePreviousClose` (boolean) - True if the previous regular session close is being used to calculated price change fields.
 
@@ -100,21 +100,21 @@ Single mover entity
 Filters movers by screener query.
 A screener query is a set of conditions.
 
-* `previousClose_lt` (number) 
+* `previousClose_lt` (number)
 
-* `previousClose_gt` (number) 
+* `previousClose_gt` (number)
 
-* `marketCap_lt` (number) 
+* `marketCap_lt` (number)
 
-* `marketCap_gt` (number) 
+* `marketCap_gt` (number)
 
-* `volume_lt` (number) 
+* `volume_lt` (number)
 
-* `volume_gt` (number) 
+* `volume_gt` (number)
 
-* `symbol_in` (string[]) 
+* `symbol_in` (string[])
 
-* `sector_in` (string[]) 
+* `sector_in` (string[])
 
-* `industry_in` (string[]) 
+* `industry_in` (string[])
 

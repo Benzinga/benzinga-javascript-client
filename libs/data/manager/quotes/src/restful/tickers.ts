@@ -9,8 +9,8 @@ import { QuotesEnvironment } from '../environment';
 export class QuotesTickerRestful extends RestfulClient {
   constructor(session: Session) {
     super(session.getEnvironment(QuotesEnvironment).tickersUrl, session, {
-      authorizationSession: true,
-      'x-device-key': true,
+      authorization: true,
+      // 'x-device-key': true,
     });
   }
 

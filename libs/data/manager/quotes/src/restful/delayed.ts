@@ -18,7 +18,7 @@ export class QuotesDelayedRestful extends RestfulClient {
     );
   }
 
-  getDelayedQuotes = async (symbols: StockSymbol): SafePromise<DelayedQuote> => {
+  getDelayedQuotes = async (symbols: StockSymbol): SafePromise<Record<StockSymbol, DelayedQuote>> => {
     const url = this.URL(`v2/quoteDelayed`, {
       apikey: this.session.getEnvironment(QuotesEnvironment).delayedQuoteKey,
       symbols,

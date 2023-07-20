@@ -10,7 +10,7 @@ export interface Manager<T extends Subscribable<any>> {
 
 export interface Environment {
   getName: () => string;
-  getEnvironment: (env: Record<string, string>) => Record<any, unknown>;
+  getEnvironment: (env: Record<string, any>) => Record<any, unknown>;
 }
 
 export interface SessionErrorEvent {
@@ -86,7 +86,7 @@ export class Session extends Subscribable<SessionEvent> {
           this.environments.set(managerEnv.getName(), env);
           return env;
         } catch (e) {
-          throw new SafeError(`Error getting Environment for ${managerEnv.getName()}`, 'session-error', e);
+          throw new SafeError(`Error getting Environment for ${managerEnv.getName()}: ${e}`, 'session-error', e);
         }
       }
     } catch (e) {

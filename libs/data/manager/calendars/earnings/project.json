@@ -1,0 +1,44 @@
+{
+  "name": "data-manager-calendars-earnings",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/data/manager/calendars/earnings/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/data/manager/calendars/earnings",
+        "main": "libs/data/manager/calendars/earnings/src/index.ts",
+        "tsConfig": "libs/data/manager/calendars/earnings/tsconfig.lib.json",
+        "assets": [
+          "libs/data/manager/calendars/earnings/*.md"
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/data/manager/calendars/earnings/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/data/manager/calendars/earnings"
+      ],
+      "options": {
+        "jestConfig": "libs/data/manager/calendars/earnings/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

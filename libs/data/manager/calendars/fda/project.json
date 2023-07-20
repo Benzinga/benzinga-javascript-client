@@ -1,0 +1,44 @@
+{
+  "name": "data-manager-calendars-fda",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/data/manager/calendars/fda/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/data/manager/calendars/fda",
+        "main": "libs/data/manager/calendars/fda/src/index.ts",
+        "tsConfig": "libs/data/manager/calendars/fda/tsconfig.lib.json",
+        "assets": [
+          "libs/data/manager/calendars/fda/*.md"
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/data/manager/calendars/fda/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/data/manager/calendars/fda"
+      ],
+      "options": {
+        "jestConfig": "libs/data/manager/calendars/fda/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

@@ -8,7 +8,7 @@ Obtain manager instance via session:
 
 ```ts
 import { createSession } from '@benzinga/session';
-import { ConferenceCallsManager } from '@benzinga/securities-manager';
+import { ConferenceCallsCalendarManager } from '@benzinga/securities-manager';
 
 const session = createSession({
   'benzinga-authentication': {
