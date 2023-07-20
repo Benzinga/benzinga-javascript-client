@@ -1,0 +1,11 @@
+{
+  "ignorePatterns": ["**/*"],
+  "overrides": [],
+  "rules": {
+    "react/display-name": "off",
+    "react/prop-types": "off",
+    "react/jsx-sort-props": ["error", { "ignoreCase": true }],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error"
+  }
+}

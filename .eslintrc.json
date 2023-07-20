@@ -1,0 +1,10 @@
+{
+  "root": true,
+  "ignorePatterns": ["**/*"],
+  "extends": ["./.eslintrc-base.eslintrc.json", "./.eslintrc-react.eslintrc.json"],
+  "plugins": ["react", "react-hooks"],
+  "rules": {
+    "prettier/prettier": "error",
+    "@typescript-eslint/no-unnecessary-type-constraint": "warn"
+  }
+}

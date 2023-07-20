@@ -1,0 +1,46 @@
+{
+  "root": true,
+  "ignorePatterns": ["**/*"],
+  "plugins": ["prettier", "@nrwl/nx", "sort-destructure-keys", "typescript-sort-keys", "sort-keys-fix", "unused-imports"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "rules": {
+        "@nrwl/nx/enforce-module-boundaries": [
+          "error",
+          {
+            "enforceBuildableLibDependency": true,
+            "allow": [],
+            "depConstraints": [
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"]
+              }
+            ]
+          }
+        ],
+        "@typescript-eslint/no-unnecessary-type-constraint": "warn"
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nrwl/nx/typescript"],
+      "rules": {}
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nrwl/nx/javascript"],
+      "rules": {}
+    }
+  ],
+  "rules": {
+    "@typescript-eslint/explicit-function-return-type": "error",
+    "@typescript-eslint/explicit-module-boundary-types": "error",
+    "@typescript-eslint/member-ordering": "error",
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "@typescript-eslint/no-unnecessary-type-constraint": "warn",
+    "prettier/prettier": "error",
+    "sort-destructure-keys/sort-destructure-keys": [2, { "caseSensitive" : false}],
+    "sort-keys-fix/sort-keys-fix": "error"
+  }
+}
