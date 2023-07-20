@@ -1,0 +1,49 @@
+{
+  "name": "utils-safe-await",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/utils/safe-await/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/rollup:rollup",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/utils/safe-await",
+        "entryFile": "libs/utils/safe-await/src/index.ts",
+        "tsConfig": "libs/utils/safe-await/tsconfig.lib.json",
+        "project": "libs/utils/safe-await/package.json",
+        "external": [
+          "react/jsx-runtime"
+        ],
+        "assets": [
+          {
+            "glob": "libs/utils/safe-await/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/utils/safe-await/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/utils/safe-await"
+      ],
+      "options": {
+        "jestConfig": "libs/utils/safe-await/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

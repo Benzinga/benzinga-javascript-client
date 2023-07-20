@@ -1,0 +1,8 @@
+{
+  "name": "@benzinga/utils",
+  "version": "1.0.0",
+  "description": "A package to holds util function used by the benzinga team",
+  "author": "Zaid Nackasha <Zaid@Benzinga.com",
+  "homepage": "",
+  "license": "UNLICENSED"
+}

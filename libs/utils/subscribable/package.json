@@ -1,0 +1,17 @@
+{
+  "name": "@benzinga/subscribable",
+  "version": "1.0.0",
+  "description": "This is package containing Benzinga subscribable helpers.",
+  "repository": "git@gitlab.benzinga.io:benzinga/fusion.git",
+  "author": "Zaid<Zaid@benzinga.com>",
+  "license": "UNLICENSED",
+  "main": "src/index.ts",
+  "publishConfig": {
+    "registry": "https://gitlab.benzinga.io/api/v4/projects/${CI_PROJECT_ID}/packages/npm/"
+  },
+  "sideEffects": false,
+  "peerDependencies": {
+    "@benzinga/utils": "^1.0.0"
+  },
+  "main": "src/index.ts"
+}
