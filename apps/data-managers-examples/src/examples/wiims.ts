@@ -20,5 +20,5 @@ export default async () => {
     return;
   }
 
-  console.log(box.result);
+  console.log(box.ok);
 };

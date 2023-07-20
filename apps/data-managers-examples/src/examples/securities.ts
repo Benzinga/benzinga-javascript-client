@@ -7,10 +7,11 @@ export default async () => {
   //Financials report is quite extensive
   //So we just print everything out
   const finsBox = await manager.getFinancials({
+    period: '3M',
     symbols: 'AAPL',
   });
 
   console.log(`Apple Financials:`);
 
-  console.log(finsBox.result);
+  console.log(finsBox.ok);
 };

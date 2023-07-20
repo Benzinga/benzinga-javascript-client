@@ -1,9 +1,9 @@
 import { getGlobalSession } from '../session';
 
-import { ConferenceCallsManager } from '@benzinga/calendar-conference-calls-manager';
+import { ConferenceCallsCalendarManager } from '@benzinga/calendar-conference-calls-manager';
 
 export default async () => {
-  const manager = getGlobalSession().getManager(ConferenceCallsManager);
+  const manager = getGlobalSession().getManager(ConferenceCallsCalendarManager);
 
   manager.subscribe(event => {
     console.log(event);

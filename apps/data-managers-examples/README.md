@@ -93,7 +93,7 @@ We do not like throwing exceptions/errors in SDK, because they break natural flo
 
 Instead, we use safe-wrappers called `SafeType` and `SafePromise` for sync and async values respectively.
 
-They are regular objects, which either contain an `err` key, which means there was an error. Otherwise, the actual value will be present in `result` field. These two states are mutually exclusive.
+They are regular objects, which either contain an `err` key, which means there was an error. Otherwise, the actual value will be present in `ok` field. These two states are mutually exclusive.
 
 Example using that approach:
 
@@ -105,7 +105,7 @@ if (safeLoginResult.err) {
   return;
 }
 
-console.log(`Login result: ${safeLoginResult.result}`)
+console.log(`Login ok: ${safeLoginResult.ok}`)
 ```
 
 So, make sure to check for `err` property every time you deal with methods from the SDK.

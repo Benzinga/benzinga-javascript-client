@@ -14,7 +14,7 @@ export default async () => {
     return;
   }
 
-  const movers = moversBox.result;
+  const movers = moversBox.ok;
 
   console.log(
     `Movers gainers from ${movers?.fromDate} to ${movers?.toDate}:\n${movers?.gainers
